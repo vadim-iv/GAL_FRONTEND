@@ -59,7 +59,7 @@ export const ADMIN_DOCUMENTS_TRANSLATE = {
             addButton: 'Add document',
             label: 'Document description',
             placeholder: 'Enter document description',
-            error: 'Document text is required in all languages',
+            error: 'Document text is required in all languages', 
 			remove: 'Remove'
         },
         ru: {
