@@ -5,7 +5,7 @@ import { getAccessToken, removeFromStorage } from '@/services/auth-token.service
 import { authService } from '@/services/auth.service'
 
 const options: CreateAxiosDefaults = {
-	baseURL: 'https://gal-backend-nest.vercel.app/api',
+	baseURL: process.env.BASE_URL,
 	headers: {
 		'Content-Type': 'application/json'
 	},
