@@ -52,21 +52,21 @@ export const ADMIN_DOCUMENTS_TRANSLATE = {
 			addButton: 'Adaugă document',
             label: 'Descriere document',
             placeholder: 'Introduceți descrierea documentului',
-			error: 'Textul documentului este obligatoriu',
+			error: 'Textul documentului este obligatoriu în toate limbile',
 			remove: 'Elimină'
 		},
         en: {
             addButton: 'Add document',
             label: 'Document description',
             placeholder: 'Enter document description',
-            error: 'Document text is required',
+            error: 'Document text is required in all languages',
 			remove: 'Remove'
         },
         ru: {
             addButton: 'Добавить документ',
             label: 'Описание документа',
             placeholder: 'Введите описание документа',
-            error: 'Текст документа обязателен',
+            error: 'Текст документа обязателен на всех языках',
 			remove: 'Удалить'
         }
 	}
