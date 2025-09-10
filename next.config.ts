@@ -2,10 +2,6 @@ import type { NextConfig } from "next";
 import createNextIntlPlugin from 'next-intl/plugin';
 
 const nextConfig: NextConfig = {
-  i18n: {
-    defaultLocale: 'ro',
-    locales: ['ro', 'en', 'ru'],
-  },
   images: {
     remotePatterns: [
       {
