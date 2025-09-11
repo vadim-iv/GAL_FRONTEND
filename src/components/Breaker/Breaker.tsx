@@ -30,7 +30,7 @@ const Breaker = () => {
 				customStyles='col-span-full sm:col-span-9 text-2xl sm:text-5xl h-fit font-bold sm:leading-13 leading-7 mb-6 sm:mb-8 sm:mt-0 mt-20'
 				text={title}
 			/>
-			<div className='col-span-full aspect-[3/2] sm:h-[640px] relative'>
+			<div className='col-span-full aspect-[3/2] w-full sm:h-[640px] relative'>
 				{imageSrc ? (
 					<ParalaxImage
 						source={imageSrc}
