@@ -62,7 +62,7 @@ export default async function Projects({ params }: { params: Promise<{ locale: s
 					tags={tags}
 					headerText={t('title')}
 					location={location}
-					imageSrc='/projects_image.png'
+					imageSrc='/projects_image.jpg'
 					imageAlt='Projects Image'
 				/>
 				<Visualization

@@ -122,6 +122,10 @@ export default async function termsAndConditions({
 						text={t('responsability_limit_text')}
 						customStyles='leading-4.5 sm:mb-12 mb-8  sm:text-base text-xs sm:col-span-4 sm:col-start-4 col-span-full'
 					/>
+					<AnimatedText
+						text={t('responsability_limit_text_2')}
+						customStyles='leading-4.5 sm:mb-12 mb-8  sm:text-base text-xs sm:col-span-4 sm:col-start-8 col-span-full'
+					/>
 
 					<AnimatedLine customStyles='col-span-full mb-2' />
 					<AnimatedText
