@@ -38,7 +38,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 				<Hero
 					heroTitle1={t('heroTitle.1')}
 					heroTitle2={t('heroTitle.2')}
-					videoSource='/homepage-video.webm'
+					videoSource='/homepage-video.mp4'
 					posterSource='/videoPoster.jpg'
 				/>
 				<AboutUs />
