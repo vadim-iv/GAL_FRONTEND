@@ -29,7 +29,7 @@ function useIsMobile(breakpoint = 640) {
 const ParalaxImage: React.FC<ParalaxImageProps> = ({
 	source,
 	altText,
-	heightClass = 'h-[640px]'
+	// heightClass = 'h-[640px]'
 }) => {
 	const ref = useRef<HTMLDivElement>(null)
 	const [ready, setReady] = useState(false)
@@ -52,13 +52,13 @@ const ParalaxImage: React.FC<ParalaxImageProps> = ({
 	return (
 		<div
 			ref={ref}
-			className={`relative w-full overflow-hidden rounded-2xl ${heightClass}`}
+			className={`relative w-full overflow-hidden rounded-2xl h-full`}
 		>
 			<motion.img
 				src={source}
 				alt={altText}
 				draggable={false}
-				className='absolute w-full h-[70%] sm:h-[120%] object-cover -top-[10%]'
+				className='absolute w-full h-[120%] object-cover -top-[10%]'
 				style={{ y, willChange: 'transform', visibility: ready ? 'visible' : 'hidden' }}
 				initial={false}
 			/>
