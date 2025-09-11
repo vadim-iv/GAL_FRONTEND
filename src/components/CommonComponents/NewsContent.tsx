@@ -83,7 +83,7 @@ const NewsContent: React.FC<NewsContentProps> = ({ summary, sections, locale }) 
 											className={
 												src.url_2
 													? 'w-full'
-													: 'sm:max-w-[1448px] w-full aspect-[4/3] sm:h-[64vh] overflow-hidden rounded-2xl'
+													: 'sm:max-w-[1448px] w-full aspect-[3/2] sm:h-[64vh] overflow-hidden rounded-2xl'
 											}
 										>
 											{src.url_2 ? (
