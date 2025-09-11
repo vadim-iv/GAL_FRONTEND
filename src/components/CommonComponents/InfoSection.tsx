@@ -120,7 +120,7 @@ const InfoSection: React.FC<InfoSectionProps> = props => {
 				})}
 			</div>
 
-			<div className='w-full sm:h-[64vh] aspect-square sm:aspect-auto overflow-hidden mt-11.5 sm:mt-6 rounded-2xl mb-20 sm:mb-40 col-span-full'>
+			<div className='w-full sm:h-[40rem] aspect-square sm:aspect-auto overflow-hidden mt-11.5 sm:mt-6 rounded-2xl mb-20 sm:mb-40 col-span-full'>
 				{props.imageSrc ? (
 					<ParalaxImage
 						source={props.imageSrc}
