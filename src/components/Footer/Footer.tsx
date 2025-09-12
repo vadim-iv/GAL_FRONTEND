@@ -13,17 +13,17 @@ import Socials from './Socials'
 import { Link } from '@/i18n/navigation'
 
 const partnerLogos = [
-	{ src: '/programul_leader.svg', alt: 'Programul LEADER', w: 262, h: 64 },
+	{ src: '/programul_leader.png', alt: 'Programul LEADER', w: 262, h: 64 },
 	{
-		src: '/ministerul_agriculturii_si_industriei_alimentare_al_republicii_moldova.svg',
+		src: '/ministerul_agriculturii_si_industriei_alimentare_al_republicii_moldova.png',
 		alt: 'Ministerul Agriculturii și Industriei Alimentare al Republicii Moldova',
 		w: 202,
 		h: 129
 	},
-	{ src: '/aipa.svg', alt: 'AIPA', w: 200, h: 64 },
-	{ src: '/eu4moldova.svg', alt: 'EU4MOLDOVA', w: 127, h: 129 },
+	{ src: '/aipa.png', alt: 'AIPA', w: 200, h: 64 },
+	{ src: '/eu4moldova.png', alt: 'EU4MOLDOVA', w: 127, h: 129 },
 	{
-		src: '/solidarity_fund_pl_in_moldova.svg',
+		src: '/solidarity_fund_pl_in_moldova.png',
 		alt: 'Solidarity Fund PL in Moldova',
 		w: 152,
 		h: 129
@@ -127,44 +127,49 @@ const Footer = () => {
 				</div>
 				<div className='grid sm:hidden justify-between relative items-center [&>*]:cursor-pointer row-start-2 min-h-0 flex-1'>
 					<Image
-						src='/programul_leader.svg'
+						src='/programul_leader.png'
 						alt='Programul Leader'
 						width={262}
 						height={64}
 						className='w-[148px] h-[36px] sm:w-[262px] sm:h-[64px] col-span-4'
 						style={{ height: 'auto' }}
+						quality={100}
 					/>
 					<Image
-						src='/ministerul_agriculturii_si_industriei_alimentare_al_republicii_moldova.svg'
+						src='/ministerul_agriculturii_si_industriei_alimentare_al_republicii_moldova.png'
 						alt='Ministerul agriculturii și industriei alimentare al Republicii Moldova'
 						width={202}
 						height={129}
 						className='w-[114px] h-[72px] sm:w-[202px] sm:h-[129px] col-span-4 col-start-5'
 						style={{ height: 'auto' }}
+						quality={100}
 					/>
 					<Image
-						src='/aipa.svg'
+						src='/aipa.png'
 						alt='Aipa'
 						width={200}
 						height={64}
 						className='w-[112px] h-[36px] sm:w-[200px] sm:h-[64px] col-span-4'
 						style={{ height: 'auto' }}
+						quality={100}
 					/>
 					<Image
-						src='/eu4moldova.svg'
+						src='/eu4moldova.png'
 						alt='EU4MOLDOVA'
 						width={127}
 						height={129}
 						className='w-[72px] h-[72px] sm:w-[127px] sm:h-[129px] col-span-4 col-start-5 my-4 sm:my-0'
 						style={{ height: 'auto' }}
+						quality={100}
 					/>
 					<Image
-						src='/solidarity_fund_pl_in_moldova.svg'
+						src='/solidarity_fund_pl_in_moldova.png'
 						alt='Solidarity Fund PL in Moldova'
 						width={152}
 						height={129}
 						className='w-[82px] h-[72px] sm:w-[152px] sm:h-[129px] col-span-4'
 						style={{ height: 'auto' }}
+						quality={100}
 					/>
 				</div>
 			</div>
