@@ -55,9 +55,6 @@ const Footer = () => {
 					<a href='tel:37362026342'>
 						<AnimatedLink text='Tel: 062 026 342' />
 					</a>
-					<a href='tel:37324184285'>
-						<AnimatedLink text='Fax: 024 184 285' />
-					</a>
 					<a
 						href='mailto:info@stejaruldacilor.md'
 						className='mt-4'
