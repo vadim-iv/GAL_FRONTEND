@@ -107,7 +107,7 @@ const CompletedProjects = () => {
 					</div>
 				</div>
 
-				<div className='col-span-full overflow-hidden -mx-4'>
+				<div className='col-span-full overflow-x-hidden -mx-4'>
 					<Slider
 						ref={sliderRef}
 						className='[&_.slick-slide]:px-3'
