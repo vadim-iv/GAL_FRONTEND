@@ -56,10 +56,10 @@ const Footer = () => {
 						<AnimatedLink text='Tel: 062 026 342' />
 					</a>
 					<a
-						href='mailto:info@stejaruldacilor.md'
+						href='mailto:info@galstejaruldacilor.md'
 						className='mt-4'
 					>
-						<AnimatedLink text='Email: info@stejaruldacilor.md' />
+						<AnimatedLink text='Email: info@galstejaruldacilor.md' />
 					</a>
 				</div>
 
