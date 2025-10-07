@@ -57,6 +57,7 @@ const Footer = () => {
 					</a>
 					<a
 						href='mailto:info@galstejaruldacilor.md'
+						
 						className='mt-4'
 					>
 						<AnimatedLink text='Email: info@galstejaruldacilor.md' />
