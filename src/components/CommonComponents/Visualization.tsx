@@ -50,10 +50,12 @@ const Visualization: React.FC<VisualisationProps> = props => {
 			...prevParams,
 			page: newPage
 		}))
-		sectionRef.current?.scrollIntoView({
-			behavior: 'smooth',
-			block: 'start'
-		})
+		setTimeout(() => {
+			sectionRef.current?.scrollIntoView({
+				behavior: 'smooth',
+				block: 'start'
+			})
+		}, 150)
 	}
 
 	const { data, isLoading } = useQuery({
@@ -66,7 +68,7 @@ const Visualization: React.FC<VisualisationProps> = props => {
 	return (
 		<section
 			ref={sectionRef}
-			className='w-screen h-fit grid grid-cols-full relative text-forest-900 mb-'
+			className='w-screen h-fit grid grid-cols-full relative text-forest-900'
 		>
 			<AnimatedLine customStyles='col-span-full mb-2' />
 			<AnimatedText
