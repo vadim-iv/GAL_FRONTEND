@@ -58,9 +58,9 @@ const Visualization: React.FC<VisualisationProps> = props => {
 
 	useLayoutEffect(() => {
 		if (shouldScroll && sectionRef.current) {
-			sectionRef.current.scrollIntoView({
-				behavior: 'smooth',
-				block: 'start'
+			window.scrollTo({
+				top: sectionRef.current.offsetTop - 100,
+				behavior: 'smooth'
 			})
 			setShouldScroll(false)
 		}
