@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
-import React, { useRef, useState } from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 
 import { AuthenticLocalCategoriesEnum, BlogsContentTypeEnum, IGetParams } from '@/types/blog.types'
 
@@ -44,24 +44,27 @@ const Visualization: React.FC<VisualisationProps> = props => {
 	})
 
 	const sectionRef = useRef<HTMLElement | null>(null)
+	const [shouldScroll, setShouldScroll] = useState(false)
 
 	const updatePage = (newPage: number) => {
-		setParams(prevParams => ({
-			...prevParams,
-			page: newPage
-		}))
-		setTimeout(() => {
-			sectionRef.current?.scrollIntoView({
-				behavior: 'smooth',
-				block: 'start'
-			})
-		}, 150)
+		setParams(prev => ({ ...prev, page: newPage }))
+		setShouldScroll(true)
 	}
 
 	const { data, isLoading } = useQuery({
 		queryKey: ['blogs', params],
 		queryFn: () => blogService.getAllBlogs(params)
 	})
+
+	useLayoutEffect(() => {
+		if (shouldScroll && sectionRef.current) {
+			sectionRef.current.scrollIntoView({
+				behavior: 'smooth',
+				block: 'start'
+			})
+			setShouldScroll(false)
+		}
+	}, [data])
 
 	const t = useTranslations('Visialization_type')
 
