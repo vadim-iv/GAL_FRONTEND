@@ -58,10 +58,6 @@ const Visualization: React.FC<VisualisationProps> = props => {
 
 	useLayoutEffect(() => {
 		if (shouldScroll && sectionRef.current) {
-			window.scrollTo({
-				top: 1000,
-				behavior: 'smooth'
-			})
 			setShouldScroll(false)
 		}
 	}, [data])
