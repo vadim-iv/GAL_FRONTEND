@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { AnimatePresence, motion, useAnimation } from 'framer-motion'
 import { useTranslations } from 'next-intl'
+import Head from 'next/head'
 import React, { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 
@@ -127,6 +128,25 @@ const NavContent: React.FC<Props> = ({ arrowColor = '#FFFEFD' }) => {
 		staleTime: 300_000
 	})
 
+	useEffect(() => {
+		const urls = [mgmtResp?.data?.main_image, docsResp?.data?.main_image].filter(
+			Boolean
+		) as string[]
+
+		const imgs = urls.map(src => {
+			const img = new Image()
+			;(img as any).fetchPriority = 'low'
+			img.decoding = 'async'
+			img.loading = 'eager'
+			img.src = src
+			return img
+		})
+
+		return () => {
+			imgs.forEach(img => (img.src = ''))
+		}
+	}, [mgmtResp?.data?.main_image, docsResp?.data?.main_image])
+
 	const imageBySubMenu: Record<NonNullable<typeof hoveredSubMenu>, { src: string; alt: string }> = {
 		despre_noi: { src: '/news_image.png', alt: 'News image' },
 		conducerea_gal: {
@@ -145,6 +165,43 @@ const NavContent: React.FC<Props> = ({ arrowColor = '#FFFEFD' }) => {
 
 	return (
 		<>
+			<Head>
+				<link
+					rel='preload'
+					as='image'
+					href='/news_image.png'
+				/>
+				<link
+					rel='preload'
+					as='image'
+					href='/administration_image.png'
+				/>
+				<link
+					rel='preload'
+					as='image'
+					href='/documents_image.png'
+				/>
+				<link
+					rel='preload'
+					as='image'
+					href='/localProducts_image.png'
+				/>
+				<link
+					rel='preload'
+					as='image'
+					href='/services_image.png'
+				/>
+				<link
+					rel='preload'
+					as='image'
+					href='/touristAttractions_image.png'
+				/>
+				<link
+					rel='preload'
+					as='image'
+					href='/peopleAndValue_image.png'
+				/>
+			</Head>
 			<motion.div
 				variants={boxVariants}
 				animate={hoveredMenu ? 'hover' : 'initial'}

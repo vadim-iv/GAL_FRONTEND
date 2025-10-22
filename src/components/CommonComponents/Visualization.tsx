@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
-import React, { useLayoutEffect, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 
 import { AuthenticLocalCategoriesEnum, BlogsContentTypeEnum, IGetParams } from '@/types/blog.types'
 
@@ -32,8 +32,9 @@ const itemVariants = {
 }
 
 const Visualization: React.FC<VisualisationProps> = props => {
+	// true = column (big cards), false = grid (small cards)
 	const [visualisationType, setVisualisationType] = useState(true)
-	// În mod implicit va fi grid, adică true = grid
+
 	const [params, setParams] = useState<IGetParams>({
 		page: 1,
 		limit: 12,
@@ -44,27 +45,26 @@ const Visualization: React.FC<VisualisationProps> = props => {
 	})
 
 	const sectionRef = useRef<HTMLElement | null>(null)
-	const [shouldScroll, setShouldScroll] = useState(false)
+
+	// Scroll helper that always targets the section top, offset for sticky header
+	const scrollToSection = useCallback(() => {
+		if (!sectionRef.current) return
+		const rectTop = sectionRef.current.getBoundingClientRect().top
+		const absoluteTop = window.scrollY + rectTop - 100 // adjust offset to your header height
+		window.scrollTo({ top: absoluteTop, behavior: 'smooth' })
+	}, [])
 
 	const updatePage = (newPage: number) => {
+		// 1) Scroll immediately (avoids "teleporting" when the next page is shorter)
+		scrollToSection()
+		// 2) Trigger the fetch
 		setParams(prev => ({ ...prev, page: newPage }))
-		setShouldScroll(true)
 	}
 
 	const { data, isLoading } = useQuery({
 		queryKey: ['blogs', params],
 		queryFn: () => blogService.getAllBlogs(params)
 	})
-
-	useLayoutEffect(() => {
-		if (shouldScroll && sectionRef.current) {
-			window.scrollTo({
-				top: sectionRef.current.offsetTop - 100,
-				behavior: 'smooth'
-			})
-			setShouldScroll(false)
-		}
-	}, [data])
 
 	const t = useTranslations('Visialization_type')
 
@@ -82,6 +82,7 @@ const Visualization: React.FC<VisualisationProps> = props => {
 				text={props.description}
 				customStyles='sm:col-span-4 sm:col-start-4 col-span-full mb-20 sm:mb-24'
 			/>
+
 			<div className='col-span-2 col-start-11 flex-col hidden sm:flex'>
 				<AnimatedText
 					text={t('type')}
@@ -96,6 +97,7 @@ const Visualization: React.FC<VisualisationProps> = props => {
 					>
 						<ColumnIcon color={!visualisationType ? 'fill-forest-800' : 'fill-stone-50'} />
 					</button>
+
 					<button
 						onClick={() => setVisualisationType(false)}
 						className={`size-10 transition duration-300 small-custom-shadow relative ${
@@ -106,15 +108,16 @@ const Visualization: React.FC<VisualisationProps> = props => {
 					</button>
 				</div>
 			</div>
+
 			{isLoading ? (
 				<PostSkeleton />
 			) : data ? (
 				<motion.div className='col-span-full sm:grid sm:grid-cols-12 gap-6'>
 					<AnimatePresence mode='wait'>
-						{data?.data.blogs.map((item, index) =>
+						{data?.data.blogs.map((item: any, index: number) =>
 							visualisationType ? (
 								<motion.div
-									key={'big-' + index}
+									key={`big-${index}-${item?.id ?? ''}`}
 									variants={itemVariants}
 									initial='hidden'
 									animate='show'
@@ -125,12 +128,12 @@ const Visualization: React.FC<VisualisationProps> = props => {
 								</motion.div>
 							) : (
 								<motion.div
-									key={'small-' + index}
+									key={`small-${index}-${item?.id ?? ''}`}
 									variants={itemVariants}
 									initial='hidden'
 									animate='show'
 									exit='exit'
-									className='col-span-4 [&>div]:bg-amber-600!'
+									className='col-span-4'
 								>
 									<SmallPost {...item} />
 								</motion.div>
@@ -143,6 +146,7 @@ const Visualization: React.FC<VisualisationProps> = props => {
 					<p className='text-green-700 text-[1.25rem] text-center'>Nu s-a putut încărca</p>
 				</div>
 			)}
+
 			{data && (
 				<div className='col-span-full flex justify-center sm:mt-0 -mt-16 sm:mb-0 mb-12 items-center w-full'>
 					<Pagination
