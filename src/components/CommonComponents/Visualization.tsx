@@ -157,6 +157,7 @@ const Visualization: React.FC<VisualisationProps> = props => {
 				</div>
 			)}
 		</section>
+		
 	)
 }
 
