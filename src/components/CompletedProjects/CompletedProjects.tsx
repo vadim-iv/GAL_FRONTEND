@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Slider from 'react-slick'
 
-import { IGetParams } from '@/types/blog.types'
+import { BlogsContentTypeEnum, IGetParams } from '@/types/blog.types'
 
 import AnimatedHeader from '../CommonComponents/AnimatedHeader'
 import AnimatedLine from '../CommonComponents/AnimatedLine'
@@ -25,10 +25,14 @@ const CompletedProjects = () => {
 	const t = useTranslations('index.CompletedProjects')
 	const sliderRef = useRef<Slider>(null)
 	const [currentSlide, setCurrentSlide] = useState(0)
-	const [params, setParams] = useState<IGetParams>({ page: 1, limit: 12 })
+	const [params, setParams] = useState<IGetParams>({
+		page: 1,
+		limit: 12,
+		content_type: BlogsContentTypeEnum.PROJECT
+	})
 
 	useEffect(() => {
-		setParams({ page: 1, limit: 12 })
+		setParams({ page: 1, limit: 12, content_type: BlogsContentTypeEnum.PROJECT })
 	}, [])
 
 	const { data } = useQuery({

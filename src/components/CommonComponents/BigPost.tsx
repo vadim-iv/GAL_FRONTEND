@@ -135,6 +135,7 @@ const BigPost: React.FC<IBlogResponse> = props => {
 					fill
 					style={{ objectFit: 'cover' }}
 					sizes='50vw'
+					unoptimized
 				/>
 			</div>
 			<div className='sm:h-1/2 h-3/5 px-4 sm:px-6 pt-6 pb-4 sm:py-8! flex flex-col justify-between group text-forest-900'>

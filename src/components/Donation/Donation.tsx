@@ -36,6 +36,7 @@ const Donation = () => {
 					className='object-cover'
 					quality={100}
 					fill={true}
+					unoptimized
 				/>
 			</div>
 		</section>

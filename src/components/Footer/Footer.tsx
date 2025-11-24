@@ -57,7 +57,6 @@ const Footer = () => {
 					</a>
 					<a
 						href='mailto:info@galstejaruldacilor.md'
-						
 						className='mt-4'
 					>
 						<AnimatedLink text='Email: info@galstejaruldacilor.md' />
@@ -119,6 +118,7 @@ const Footer = () => {
 								sizes='(max-width:640px) 40vw, 12vw'
 								quality={100}
 								priority
+								unoptimized
 							/>
 						</div>
 					))}
@@ -132,6 +132,7 @@ const Footer = () => {
 						className='w-[148px] h-[36px] sm:w-[262px] sm:h-[64px] col-span-4'
 						style={{ height: 'auto' }}
 						quality={100}
+						unoptimized
 					/>
 					<Image
 						src='/ministerul_agriculturii_si_industriei_alimentare_al_republicii_moldova.png'
@@ -141,6 +142,7 @@ const Footer = () => {
 						className='w-[114px] h-[72px] sm:w-[202px] sm:h-[129px] col-span-4 col-start-5'
 						style={{ height: 'auto' }}
 						quality={100}
+						unoptimized
 					/>
 					<Image
 						src='/aipa.png'
@@ -150,6 +152,7 @@ const Footer = () => {
 						className='w-[112px] h-[36px] sm:w-[200px] sm:h-[64px] col-span-4'
 						style={{ height: 'auto' }}
 						quality={100}
+						unoptimized
 					/>
 					<Image
 						src='/eu4moldova.png'
@@ -159,6 +162,7 @@ const Footer = () => {
 						className='w-[72px] h-[72px] sm:w-[127px] sm:h-[129px] col-span-4 col-start-5 my-4 sm:my-0'
 						style={{ height: 'auto' }}
 						quality={100}
+						unoptimized
 					/>
 					<Image
 						src='/solidarity_fund_pl_in_moldova.png'
@@ -168,6 +172,7 @@ const Footer = () => {
 						className='w-[82px] h-[72px] sm:w-[152px] sm:h-[129px] col-span-4'
 						style={{ height: 'auto' }}
 						quality={100}
+						unoptimized
 					/>
 				</div>
 			</div>
