@@ -33,7 +33,7 @@ const itemVariants = {
 
 const Visualization: React.FC<VisualisationProps> = props => {
 	// true = column (big cards), false = grid (small cards)
-	const [visualisationType, setVisualisationType] = useState(true)
+	const [visualisationType, setVisualisationType] = useState(false)
 
 	const [params, setParams] = useState<IGetParams>({
 		page: 1,
