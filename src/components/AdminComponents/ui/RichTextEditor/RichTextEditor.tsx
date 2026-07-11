@@ -17,7 +17,8 @@ import { Control, RegisterOptions, useController } from 'react-hook-form'
 
 import { TypeBlogFormState } from '@/types/blog.types'
 import { TypeDocumentsFormState } from '@/types/documents.types'
-import { TypeManagementFormState } from '@/types/management.types'
+import { TypeMainImageFormState } from '@/types/management.types'
+import { TypeMemberFormState } from '@/types/member.types'
 import { TypeStatisticsFormState } from '@/types/statistics.types'
 
 import { Toolbar } from './Toolbar'
@@ -31,8 +32,9 @@ interface Props {
 	control:
 		| Control<TypeBlogFormState>
 		| Control<TypeStatisticsFormState>
-		| Control<TypeManagementFormState>
+		| Control<TypeMainImageFormState>
 		| Control<TypeDocumentsFormState>
+		| Control<TypeMemberFormState>
 	placeholder: string
 	rules?: RegisterOptions
 }
@@ -43,7 +45,9 @@ export function RichTextEditor({ className, name, control, placeholder, rules }:
 		fieldState
 	} = useController({
 		name: name as any,
-		control: control as Control<TypeBlogFormState | TypeStatisticsFormState | TypeManagementFormState | TypeDocumentsFormState>,
+		control: control as Control<
+			TypeBlogFormState | TypeStatisticsFormState | TypeMainImageFormState | TypeDocumentsFormState | TypeMemberFormState
+		>,
 		rules: rules as any,
 		defaultValue: ''
 	})

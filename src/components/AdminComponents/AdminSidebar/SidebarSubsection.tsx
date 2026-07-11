@@ -17,7 +17,7 @@ export function SidebarSubsection({ title, items }: IAdminSidebarSubsection) {
 	return (
 		<div>
 			<h3 className='font-bold text-white/50 text-[0.75rem] leading-[0.875rem]'>{title[locale]}</h3>
-			<div className='flex flex-col mt-[0.5rem]'>
+			<div className={`flex flex-col mt-[0.5rem]`}>
 				{items.map((item, index) => (
 					<Link
 						href={item.link as Pathnames}

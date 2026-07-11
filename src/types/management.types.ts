@@ -43,6 +43,6 @@ export interface IManagementResponse {
 	updatedAt: string
 }
 
-export type TypeManagementFormState = Partial<
-	Omit<IManagementResponse, '_id' | 'createdAt' | 'updatedAt'>
->
+export type TypeMainImageFormState = {
+	main_image?: string
+}

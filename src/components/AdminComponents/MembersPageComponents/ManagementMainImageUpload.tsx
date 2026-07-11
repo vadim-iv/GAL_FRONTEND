@@ -2,12 +2,12 @@ import { Control } from 'react-hook-form'
 
 import { ImageToUpload } from '@/types/blog.types'
 
-import { ImageUpload } from '../../ui/ImageUpload/ImageUpload'
-import { TypeManagementFormState } from '@/types/management.types'
+import { ImageUpload } from '../ui/ImageUpload/ImageUpload'
+import { TypeMainImageFormState } from '@/types/management.types'
 
 interface IManagementMainImageProps {
     language: 'ro' | 'ru' | 'en'
-    control: Control<TypeManagementFormState>
+    control: Control<TypeMainImageFormState>
     addImageToUpload: (image: ImageToUpload) => void
     addImageToDelete: (imageUrl: string) => void
     removeImageFromUpload: (uploadUrl: string) => void

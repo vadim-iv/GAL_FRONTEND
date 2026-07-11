@@ -1,5 +1,5 @@
 import { axiosClassic, axiosWithAuth } from "@/api/interceptors";
-import type { IManagementResponse, TypeManagementFormState } from "@/types/management.types";
+import type { IManagementResponse } from "@/types/management.types";
 
 export class ManagementService {
     private BASE_URL = '/management'
@@ -12,10 +12,10 @@ export class ManagementService {
         return response
     }
 
-    async updateManagement(data: TypeManagementFormState) {
-        const response = await axiosWithAuth.put<IManagementResponse>(
-            `${this.BASE_URL}/`,
-            data
+    async updateMainImage(main_image: string) {
+        const response = await axiosWithAuth.patch<IManagementResponse>(
+            `${this.BASE_URL}/main-image`,
+            { main_image }
         )
 
         return response

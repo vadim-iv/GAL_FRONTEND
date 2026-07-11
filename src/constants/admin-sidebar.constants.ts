@@ -117,6 +117,31 @@ export const ADMIN_SIDEBAR_ITEMS: IAdminSidebarSubsection[] = [
 				link: ADMIN_PAGES.PEOPLE_AND_VALUES
 			}
 		]
+	},
+	{
+		title: {
+			ro: 'Activități',
+			ru: 'Деятельность',
+			en: 'Activities'
+		},
+		items: [
+			{
+				title: {
+					ro: 'Decizii',
+					ru: 'Решения',
+					en: 'Decisions'
+				},
+				link: ADMIN_PAGES.DECISIONS
+			},
+			{
+				title: {
+					ro: 'Apeluri locale',
+					ru: 'Местные вызовы',
+					en: 'Local Calls'
+				},
+				link: ADMIN_PAGES.LOCAL_CALLS
+			}
+		]
 	}
 ]
 

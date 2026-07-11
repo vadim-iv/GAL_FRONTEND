@@ -49,7 +49,7 @@ export function AdminNav() {
                 )}
                 <div className='flex items-center gap-[1.5rem]'>
                     <LangSelectBox />
-                    <Button className='size-[2.5rem] flex items-center justify-center cursor-pointer'>
+                    {/* <Button className='size-[2.5rem] flex items-center justify-center cursor-pointer'>
                         <Image
                             src={'/admin_assets/search-icon.svg'}
                             alt='Search Icon'
@@ -58,7 +58,7 @@ export function AdminNav() {
                             className='size-[1rem]'
                             draggable={false}
                         />
-                    </Button>
+                    </Button> */}
                     <Button
                         onClick={() => mutate()}
                         className='h-[2.5rem] relative w-fit flex items-center justify-center cursor-pointer px-[1rem] text-[1rem] font-[400]'

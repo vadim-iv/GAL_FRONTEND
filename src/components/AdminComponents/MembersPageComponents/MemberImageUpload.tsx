@@ -7,31 +7,21 @@ import { useEffect, useRef, useState } from 'react'
 import { Control, RegisterOptions, useController } from 'react-hook-form'
 import { toast } from 'sonner'
 
-import { ADMIN_FORM_TRANSLATE } from '@/constants/admin-form-translate.data'
+import { ADMIN_MEMBERS_TRANSLATE } from '@/constants/admin-members-translate.data'
 
-import { ImageToUpload, TypeBlogFormState } from '@/types/blog.types'
-import { TypeDocumentsFormState } from '@/types/documents.types'
-import { TypeMainImageFormState } from '@/types/management.types'
-import { TypeStatisticsFormState } from '@/types/statistics.types'
+import { ImageToUpload } from '@/types/blog.types'
+import { TypeMemberFormState } from '@/types/member.types'
 
 import { BLOG_FORM } from '@/config/blog-form.config'
 
-import { useGenerateImageLink } from '@/hooks/blog/useGenerateImageLink'
+import { useGenerateMemberImageLink } from '@/hooks/member/useGenerateMemberImageLink'
 
 import { isImageValid } from '@/lib/file-upload.utils'
 import { cn } from '@/lib/utils'
 
-interface ImageUploadProps {
-	name:
-		| keyof TypeBlogFormState
-		| keyof TypeStatisticsFormState
-		| keyof TypeMainImageFormState
-		| keyof TypeDocumentsFormState
-	control:
-		| Control<TypeBlogFormState>
-		| Control<TypeStatisticsFormState>
-		| Control<TypeMainImageFormState>
-		| Control<TypeDocumentsFormState>
+interface MemberImageUploadProps {
+	name: keyof TypeMemberFormState
+	control: Control<TypeMemberFormState>
 	rules?: RegisterOptions
 	className?: string
 	height?: string
@@ -40,12 +30,12 @@ interface ImageUploadProps {
 	addImageToUpload?: (imageUrl: ImageToUpload) => void
 	addImageToDelete?: (imageUrl: string) => void
 	removeImageFromUpload: (uploadUrl: string) => void
-
-	// For removing the image upload field in the form
-	onRemove?: () => void
 }
 
-export function ImageUpload({
+// Mirrors src/components/AdminComponents/ui/ImageUpload/ImageUpload.tsx but hits the
+// members module's own generate-upload-link/delete-files endpoints (S3 'MEMBERS/' prefix)
+// instead of the shared component's hardwired blogs endpoints.
+export function MemberImageUpload({
 	name,
 	height,
 	language,
@@ -54,16 +44,15 @@ export function ImageUpload({
 	className,
 	addImageToUpload,
 	addImageToDelete,
-	removeImageFromUpload,
-	onRemove
-}: ImageUploadProps) {
+	removeImageFromUpload
+}: MemberImageUploadProps) {
 	const t = useTranslations('Admin.ToastMessages')
 	const fileInputRef = useRef<HTMLInputElement>(null)
 	const [selectedFile, setSelectedFile] = useState<File | null>(null)
 	const [previewUrl, setPreviewUrl] = useState<string>('')
 	const [currentUploadUrl, setCurrentUploadUrl] = useState<string>('')
 	const { imageData, isImageLinkPending, generateLink, isImageLinkGenerated } =
-		useGenerateImageLink()
+		useGenerateMemberImageLink()
 
 	const {
 		field: { value, onChange },
@@ -170,7 +159,7 @@ export function ImageUpload({
 				className
 			)}
 			style={{
-				height: hasImage ? '40rem' : height || '40rem'
+				height: hasImage ? '20rem' : height || '20rem'
 			}}
 		>
 			<input
@@ -199,44 +188,33 @@ export function ImageUpload({
 				<div className='relative w-full h-full'>
 					<Image
 						src={displayImageUrl as string}
-						alt='Uploaded Image'
+						alt='Member Image'
 						fill
 						className='w-full h-full object-cover hover:opacity-80 transition-opacity duration-300'
 					/>
 
 					<button
+						type='button'
 						onClick={removeImage}
-						className='absolute z-20 top-[1.5rem] right-[1.5rem] cursor-pointer hover:opacity-80 transition-opacity duration-300'
+						className='absolute z-20 top-[1rem] right-[1rem] cursor-pointer hover:opacity-80 transition-opacity duration-300'
 					>
-						<Image
-							src='/admin_assets/delete-icon.svg'
-							alt='Delete Image'
-							width={24}
-							height={24}
-							className='size-[1.5rem]'
-						/>
+						<X className='size-[1.25rem] text-white drop-shadow' />
 					</button>
 				</div>
 			) : (
-				<div className=''>
-					{onRemove && (
-						<X
-							onClick={onRemove}
-							className='absolute z-50 top-[0.5rem] right-[0.5rem] cursor-pointer hover:opacity-80 transition-opacity duration-300'
-						/>
-					)}
+				<div>
 					<div className='flex items-center gap-[0.5rem]'>
 						<Upload className={`size-[1.25rem] ${hasError ? 'text-error' : 'text-green-700'} `} />
 						<p
 							className={` text-[1rem] leading-[1.125rem] ${hasError ? 'text-error' : 'text-green-700'}`}
 						>
-							{ADMIN_FORM_TRANSLATE.mainImageInput[language].placeholder.main}
+							{ADMIN_MEMBERS_TRANSLATE.imageInput[language].placeholder.main}
 						</p>
 					</div>
 					<p
 						className={`text-[0.75rem] leading-[0.875rem] text-center mt-[0.5rem] ${hasError ? 'text-error' : 'text-green-600'}`}
 					>
-						{ADMIN_FORM_TRANSLATE.mainImageInput[language].placeholder.subtext}:{' '}
+						{ADMIN_MEMBERS_TRANSLATE.imageInput[language].placeholder.subtext}:{' '}
 						{BLOG_FORM.MAX_IMAGE_FILE_SIZE_IN_MB}MB
 					</p>
 				</div>

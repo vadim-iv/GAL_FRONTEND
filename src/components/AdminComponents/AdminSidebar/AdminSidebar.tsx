@@ -36,11 +36,11 @@ export function AdminSidebar() {
                         alt='logo'
                         width={64}
                         height={64}
-                        className='size-[4rem]'
+                        className='size-[2.5rem]'
                     />
                 </Link>
 
-				<div className='flex flex-col gap-[2rem] mt-[4rem]'>
+				<div className='flex flex-col gap-[1.5rem] mt-[2rem]'>
 					{
 						ADMIN_SIDEBAR_ITEMS.map((subsection, index) => (
 							<SidebarSubsection key={index} {...subsection} />

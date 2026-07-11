@@ -15,6 +15,9 @@ class DASHBOARD {
 
     CREATE_BLOG = `${this.root}/create-blog`
     EDIT_BLOG = `${this.root}/edit-blog`
+    
+    DECISIONS = `${this.root}/decisions`
+    LOCAL_CALLS = `${this.root}/local-calls`
 
     getBlogEditPage(blogId: string) {
         return `${this.EDIT_BLOG}/${blogId}`

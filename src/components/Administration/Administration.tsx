@@ -17,11 +17,11 @@ interface ManagementResponse {
 	main_image: string
 	updatedAt: string
 	president: { text: IMultiLangText; image?: string }
-	executive: { column1: IMultiLangText }
+	executive: { column1: IMultiLangText; column2?: IMultiLangText }
 	general_assembly: { column1: IMultiLangText; column2?: IMultiLangText }
-	administration: { column1: IMultiLangText }
+	administration: { column1: IMultiLangText; column2?: IMultiLangText }
 	committee: { column1: IMultiLangText; column2?: IMultiLangText }
-	censorship: { column1: IMultiLangText }
+	censorship: { column1: IMultiLangText; column2?: IMultiLangText }
 }
 
 const pick = (obj: IMultiLangText | undefined, locale: string) => {
@@ -36,7 +36,7 @@ const HtmlBlock: React.FC<{ html: string; isFirstOfPair?: boolean }> = ({
 	<div
 		className={`sm:col-span-4 col-span-full flex flex-col gap-[1ch] leading-4.5 ${
 			isFirstOfPair ? 'mb-12' : 'mb-20'
-		} sm:mb-24 prose max-w-none`}
+		} sm:mb-24 prose max-w-none [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:flex [&_ol]:flex-col [&_ol]:gap-2`}
 		dangerouslySetInnerHTML={{ __html: html }}
 	/>
 )
@@ -130,7 +130,13 @@ const Administration: React.FC = () => {
 						text={t('executiveBody.detailsLabel')}
 						customStyles='font-bold col-span-full sm:mb-0 mb-12 sm:col-span-3'
 					/>
-					<HtmlBlock html={pick(management?.executive?.column1, locale)} />
+					<HtmlBlock
+						html={pick(management?.executive?.column1, locale)}
+						isFirstOfPair={!!management?.executive?.column2}
+					/>
+					{management?.executive?.column2 && (
+						<HtmlBlock html={pick(management.executive.column2, locale)} />
+					)}
 				</div>
 
 				<div className='grid grid-cols-full w-full relative'>
@@ -162,7 +168,13 @@ const Administration: React.FC = () => {
 						text={t('boardOfDirectors.subheader')}
 						customStyles='font-bold col-span-full sm:mb-0 mb-12 sm:col-span-3'
 					/>
-					<HtmlBlock html={pick(management?.administration?.column1, locale)} />
+					<HtmlBlock
+						html={pick(management?.administration?.column1, locale)}
+						isFirstOfPair={!!management?.administration?.column2}
+					/>
+					{management?.administration?.column2 && (
+						<HtmlBlock html={pick(management.administration.column2, locale)} />
+					)}
 				</div>
 
 				<div className='grid grid-cols-full w-full relative'>
@@ -194,7 +206,13 @@ const Administration: React.FC = () => {
 						text={t('auditCommission.subheader')}
 						customStyles='font-bold col-span-full sm:mb-0 mb-12 sm:col-span-3'
 					/>
-					<HtmlBlock html={pick(management?.censorship?.column1, locale)} />
+					<HtmlBlock
+						html={pick(management?.censorship?.column1, locale)}
+						isFirstOfPair={!!management?.censorship?.column2}
+					/>
+					{management?.censorship?.column2 && (
+						<HtmlBlock html={pick(management.censorship.column2, locale)} />
+					)}
 				</div>
 			</section>
 		</main>

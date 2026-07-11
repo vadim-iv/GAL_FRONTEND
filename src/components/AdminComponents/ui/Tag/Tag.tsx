@@ -3,7 +3,7 @@ interface Props {
     color: string
 }
 
-export function ManagementTag({ text, color }: Props) {
+export function Tag({ text, color }: Props) {
 
     return (
         <div

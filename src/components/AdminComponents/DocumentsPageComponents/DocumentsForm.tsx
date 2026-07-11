@@ -9,7 +9,7 @@ import { ADMIN_DOCUMENTS_TRANSLATE } from '@/constants/admin-documents-translate
 import { ImageToUpload } from '@/types/blog.types'
 import { IFileToUpload, TypeDocumentsFormState } from '@/types/documents.types'
 
-import { ManagementTag } from '../ManagementPageComponents/ManagementForm/ManagementTag'
+import { Tag } from '../ui/Tag/Tag'
 import { Spinner } from '../ui/Spinner/Spinner'
 
 import { DocumentsMainImageUpload } from './DocumentsMainImageUpload'
@@ -111,7 +111,7 @@ export function DocumentsForm({
 
 			<div className='flex gap-[0.5rem]'>
 				{DOCUMENT_GROUPS.map((group, index) => (
-					<ManagementTag
+					<Tag
 						key={`documents-group-${index}`}
 						text={group.text[language]}
 						color={group.color}

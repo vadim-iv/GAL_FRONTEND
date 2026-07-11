@@ -476,6 +476,8 @@
 		"save": "Save",
 
 		"delete_question": "Are you sure you want to delete the article?",
+		"permanently_delete_member_question": "Are you sure you want to permanently delete this member? This will remove their account and all of their roles. This action cannot be undone.",
+		"delete_member": "Delete member",
 		"confirm_delete": "Yes, delete",
 		"cancel_delete": "No, I changed my mind",
 
@@ -514,6 +516,13 @@
 
 			"management_updated": "Management information updated successfully.",
 			"management_update_failed": "An error occurred while updating management information.",
+
+			"member_created": "Member created successfully.",
+			"member_creation_failed": "An error occurred while creating the member.",
+			"member_updated": "Member updated successfully.",
+			"member_update_failed": "An error occurred while updating the member.",
+			"member_deleted": "Member deleted successfully.",
+			"member_deletion_failed": "An error occurred while deleting the member.",
 
 			"statistics_updated": "Statistics updated successfully.",
 			"statistics_update_failed": "An error occurred while updating statistics.",

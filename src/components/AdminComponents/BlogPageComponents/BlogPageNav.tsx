@@ -6,7 +6,7 @@ import { Button } from '../ui/Button'
 import { LangBtn } from './LangBtn'
 import { useRouter } from '@/i18n/navigation'
 import { useState } from 'react'
-import { BlogDeleteModal } from './BlogDeleteModal'
+import { ConfirmDeleteModal } from '../ui/ConfirmDeleteModal/ConfirmDeleteModal'
 import { AnimatePresence } from 'framer-motion'
 
 interface Props {
@@ -69,7 +69,7 @@ export function BlogPageNav({ language, setLanguage, isPending, onDeleteBlog, is
 				</p>
 				<AnimatePresence mode='wait'>
 					{isModalOpen && (
-						<BlogDeleteModal
+						<ConfirmDeleteModal
 							handleDelete={handleDelete}
 							setDeleteModalOpen={setIsModalOpen}
 						/>
