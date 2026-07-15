@@ -113,7 +113,30 @@ export const routing = defineRouting({
 		'/admin/tourist-attractions': '/admin/tourist-attractions',
 
 		'/admin/create-blog': '/admin/create-blog',
-		'/admin/edit-blog/[id]': '/admin/edit-blog/[id]'
+		'/admin/edit-blog/[id]': '/admin/edit-blog/[id]',
+
+		'/admin/local-calls': '/admin/local-calls',
+		'/admin/create-local-call': '/admin/create-local-call',
+		'/admin/edit-local-call/[id]': '/admin/edit-local-call/[id]',
+		'/admin/local-calls/[id]/projects': '/admin/local-calls/[id]/projects',
+		'/admin/local-calls/[id]/projects/create': '/admin/local-calls/[id]/projects/create',
+		'/admin/local-calls/[id]/projects/edit/[projectId]':
+			'/admin/local-calls/[id]/projects/edit/[projectId]',
+
+		'/admin/decisions': '/admin/decisions',
+		'/admin/create-decision': '/admin/create-decision',
+		'/admin/edit-decision/[id]': '/admin/edit-decision/[id]',
+
+		// Member voting platform routes
+		'/voting': '/voting',
+		'/voting/login': '/voting/login',
+		'/voting/forgot-password': '/voting/forgot-password',
+		'/voting/reset-password': '/voting/reset-password',
+		'/voting/local-calls': '/voting/local-calls',
+		'/voting/local-calls/[id]': '/voting/local-calls/[id]',
+		'/voting/local-calls/[id]/projects/[projectId]': '/voting/local-calls/[id]/projects/[projectId]',
+		'/voting/decisions': '/voting/decisions',
+		'/voting/decisions/[id]': '/voting/decisions/[id]'
 	},
 
 	// Used when no locale matches

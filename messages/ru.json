@@ -458,13 +458,33 @@
 		"username": "Пользователь",
 		"password": "Пароль",
 		"visualization_type": "Тип визуализации",
+		"status_pending": "Ожидает одобрения",
+		"status_approved": "Одобрено",
+		"status_rejected": "Отклонено",
+		"status_closed": "Закрыто",
+		"status_open": "В процессе",
+		"local_call_status_not_started": "Не начался",
+		"local_call_status_active": "Активен",
+		"local_call_status_ended": "Завершён",
+		"question_type_radio": "Один вариант",
+		"question_type_select": "Выбор из списка",
+		"question_type_text": "Свободный текст",
 		"no_blogs": "Статьи не найдены",
 		"no_blogs_message": "В данный момент нет статей для отображения.",
+		"no_local_calls": "Местные вызовы не найдены",
+		"no_local_calls_message": "В данный момент нет местных вызовов для отображения.",
+		"no_projects": "Проекты не найдены",
+		"no_projects_message": "В данный момент нет проектов для отображения.",
+		"no_decisions": "Решения не найдены",
+		"no_decisions_message": "В данный момент нет решений для отображения.",
 		"create_one": "Создать одну",
 		"save": "Сохранить",
 
 		"delete_question": "Вы уверены, что хотите удалить статью?",
 		"permanently_delete_member_question": "Вы уверены, что хотите безвозвратно удалить этого участника? Это удалит его учётную запись и все его роли. Это действие нельзя отменить.",
+		"delete_local_call_question": "Вы уверены, что хотите удалить этот местный вызов? Это также удалит все его проекты. Это действие нельзя отменить.",
+		"delete_project_question": "Вы уверены, что хотите удалить этот проект? Это действие нельзя отменить.",
+		"delete_decision_question": "Вы уверены, что хотите удалить это решение? Это действие нельзя отменить.",
 		"delete_member": "Удалить участника",
 		"confirm_delete": "Да, удалить",
 		"cancel_delete": "Нет, я передумал",
@@ -472,8 +492,14 @@
 		"create_new_blog": "Создать новую статью",
 		"edit_blog": "Редактировать статью",
 		"delete_blog": "Удалить статью",
+		"delete_local_call": "Удалить местный вызов",
+		"delete_project": "Удалить проект",
+		"delete_decision": "Удалить решение",
 		"save_blog": "Сохранить статью",
 		"cancel": "Отменить",
+		"view": "Просмотр",
+		"edit": "Редактировать",
+		"view_projects": "Посмотреть проекты",
 
 		"data_load_failed": "Не удалось загрузить данные. Пожалуйста, попробуйте еще раз.",
 
@@ -512,6 +538,32 @@
 			"member_deleted": "Участник успешно удалён.",
 			"member_deletion_failed": "Произошла ошибка при удалении участника.",
 
+			"local_call_created": "Местный вызов успешно создан.",
+			"local_call_creation_failed": "Произошла ошибка при создании местного вызова.",
+			"local_call_updated": "Местный вызов успешно обновлён.",
+			"local_call_update_failed": "Произошла ошибка при обновлении местного вызова.",
+			"local_call_deleted": "Местный вызов успешно удалён.",
+			"local_call_deletion_failed": "Произошла ошибка при удалении местного вызова.",
+			"local_call_needs_at_least_one_question": "Местный вызов должен содержать хотя бы один вопрос.",
+
+			"project_created": "Проект успешно создан.",
+			"project_creation_failed": "Произошла ошибка при создании проекта.",
+			"project_updated": "Проект успешно обновлён.",
+			"project_update_failed": "Произошла ошибка при обновлении проекта.",
+			"project_deleted": "Проект успешно удалён.",
+			"project_deletion_failed": "Произошла ошибка при удалении проекта.",
+
+			"decision_created": "Решение успешно создано.",
+			"decision_creation_failed": "Произошла ошибка при создании решения.",
+			"decision_updated": "Решение успешно обновлено.",
+			"decision_update_failed": "Произошла ошибка при обновлении решения.",
+			"decision_deleted": "Решение успешно удалено.",
+			"decision_deletion_failed": "Произошла ошибка при удалении решения.",
+			"decision_question_needs_options": "Вопросы с одним вариантом или выбором из списка требуют хотя бы один вариант ответа.",
+			"decision_needs_at_least_one_question": "Решение должно содержать хотя бы один вопрос.",
+
+			"pdf_generation_failed": "Произошла ошибка при создании PDF-файла.",
+
 			"statistics_updated": "Статистика успешно обновлена.",
 			"statistics_update_failed": "Произошла ошибка при обновлении статистики.",
 
@@ -532,6 +584,61 @@
 			"files_image_format_error_slice_2": "Выберите допустимый формат",
 
 			"please_fill_in_all_required_fields_correctly": "Ошибка в форме. Пожалуйста, заполните все поля правильно."
+		}
+	},
+	"Platform": {
+		"email": "Email",
+		"password": "Пароль",
+		"login": "Войти",
+		"forgotPassword": "Забыли пароль?",
+		"forgotPasswordTitle": "Сброс пароля",
+		"forgotPasswordInstructions": "Введите свой email, и мы отправим вам ссылку для сброса пароля.",
+		"forgotPasswordSuccessMessage": "Если этот email существует, ссылка для сброса уже отправлена на него.",
+		"sendResetLink": "Отправить ссылку для сброса",
+		"backToLogin": "Назад ко входу",
+		"resetPasswordTitle": "Сброс пароля",
+		"resetPasswordInstructions": "Нажмите ниже, чтобы подтвердить сброс пароля.",
+		"resetPasswordInvalidLink": "Эта ссылка для сброса недействительна.",
+		"resetPasswordSuccessMessage": "Новый пароль отправлен на ваш email.",
+		"confirmResetPassword": "Подтвердить сброс пароля",
+
+		"logout": "Выйти",
+		"tabLocalCalls": "Местные вызовы",
+		"tabDecisions": "Решения",
+
+		"selectPlaceholder": "Выберите вариант",
+
+		"seeProjects": "Смотреть проекты",
+		"vote": "Голосовать",
+		"viewYourVote": "Посмотреть ваш голос",
+		"votedBadge": "Вы проголосовали",
+
+		"voteNotStarted": "Начинается {date}",
+		"voteActive": "Активно до {date}",
+		"voteEnded": "Завершено {date}",
+		"voteWindowNotStartedMessage": "Голосование ещё не началось.",
+		"voteWindowActiveMessage": "Голосование сейчас открыто.",
+		"voteWindowEndedMessage": "Голосование завершено.",
+
+		"loading": "Загрузка...",
+		"dataLoadFailed": "Не удалось загрузить данные. Пожалуйста, попробуйте снова.",
+		"noLocalCalls": "Местные вызовы не найдены.",
+		"noDecisions": "Решения не найдены.",
+		"noProjects": "Проекты не найдены.",
+		"projects": "Проекты",
+		"seeDocumentation": "Смотреть документацию",
+		"alreadyVotedMessage": "Вы уже проголосовали — вот что вы отправили.",
+		"submitVote": "Отправить голос",
+		"submitting": "Отправка...",
+		"answerAllQuestions": "Пожалуйста, ответьте на все вопросы перед отправкой.",
+
+		"ToastMessages": {
+			"loginSuccess": "Вход выполнен успешно.",
+			"loginError": "Неверный email или пароль.",
+			"forgotPasswordFailed": "Что-то пошло не так. Пожалуйста, попробуйте снова.",
+			"resetPasswordFailed": "Что-то пошло не так. Пожалуйста, попробуйте снова.",
+			"voteSubmitted": "Ваш голос успешно отправлен.",
+			"voteSubmitFailed": "Произошла ошибка при отправке голоса."
 		}
 	}
 }

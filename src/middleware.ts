@@ -2,14 +2,26 @@ import createMiddleware from 'next-intl/middleware'
 import { NextRequest, NextResponse } from 'next/server'
 
 import { ADMIN_PAGES } from './config/admin-pages.config'
+import { PLATFORM_PAGES } from './config/platform-pages.config'
 import { routing } from './i18n/routing'
 import { EnumTokens } from './services/auth-token.service'
+import { MemberEnumTokens } from './services/members-auth-token.service'
 
 // Create the next-intl middleware
 const intlMiddleware = createMiddleware(routing)
 
+// Redirect targets built as bare paths (e.g. "/voting/login") lose whatever
+// locale was in the original URL — next-intl then treats them as unprefixed
+// and falls back to the default locale ("ro"), regardless of what the user
+// had selected. Preserve it explicitly on every redirect instead.
+function getRequestLocale(pathname: string): string {
+	const match = pathname.match(/^\/(ro|en|ru)(?=\/|$)/)
+	return match ? match[1] : routing.defaultLocale
+}
+
 export default async function middleware(request: NextRequest) {
 	const { url, cookies } = request
+	const locale = getRequestLocale(request.nextUrl.pathname)
 
 	const accessToken = cookies.get(EnumTokens.ACCESS_TOKEN)?.value
 
@@ -22,7 +34,7 @@ export default async function middleware(request: NextRequest) {
 	const isAdminPage = url.includes('/admin') && !url.includes('/administration')
 
 	if (isLogInPage && accessToken) {
-		return NextResponse.redirect(new URL(ADMIN_PAGES.NEWS, url))
+		return NextResponse.redirect(new URL(`/${locale}${ADMIN_PAGES.NEWS}`, url))
 	}
 
 	if (isLogInPage) {
@@ -30,14 +42,33 @@ export default async function middleware(request: NextRequest) {
 	}
 
 	if (isAdminPage && !accessToken) {
-		return NextResponse.redirect(new URL(ADMIN_PAGES.LOGIN, url))
+		return NextResponse.redirect(new URL(`/${locale}${ADMIN_PAGES.LOGIN}`, url))
 	}
 
 	if (isAdminRootUrl && accessToken) {
-		return NextResponse.redirect(new URL(ADMIN_PAGES.NEWS, url))
+		return NextResponse.redirect(new URL(`/${locale}${ADMIN_PAGES.NEWS}`, url))
 	}
 
-	// For all other pages (non-admin), just apply intl middleware
+	const memberAccessToken = cookies.get(MemberEnumTokens.ACCESS_TOKEN)?.value
+
+	const isMemberPublicPage =
+		url.includes('/voting/login') || url.includes('/voting/forgot-password') || url.includes('/voting/reset-password')
+	const isMemberLoginPage = url.includes('/voting/login')
+	const isPlatformPage = url.includes('/voting') && !isMemberPublicPage
+
+	if (isMemberLoginPage && memberAccessToken) {
+		return NextResponse.redirect(new URL(`/${locale}${PLATFORM_PAGES.LOCAL_CALLS}`, url))
+	}
+
+	if (isMemberPublicPage) {
+		return intlMiddleware(request)
+	}
+
+	if (isPlatformPage && !memberAccessToken) {
+		return NextResponse.redirect(new URL(`/${locale}${PLATFORM_PAGES.LOGIN}`, url))
+	}
+
+	// For all other pages (non-admin, non-platform), just apply intl middleware
 	const response = intlMiddleware(request)
 
 	return response

@@ -1,86 +1,38 @@
-import {
-	Select,
-	SelectArrow,
-	SelectItem,
-	SelectItemCheck,
-	SelectPopover,
-	SelectProvider
-} from '@ariakit/react'
-import { Control, Controller, RegisterOptions } from 'react-hook-form'
+import { Control, Controller, FieldPath, FieldValues, RegisterOptions } from 'react-hook-form'
 
-import { TypeBlogFormState } from '@/types/blog.types'
-import { TypeStatisticsFormState } from '@/types/statistics.types'
+import { SelectBoxBase } from './SelectBoxBase'
 
-import { cn } from '@/lib/utils'
-
-interface ISelectProps {
+interface ISelectProps<T extends FieldValues> {
 	options: { value: string; label: string }[]
-	name: keyof TypeBlogFormState | keyof TypeStatisticsFormState
-	control: Control<TypeBlogFormState | TypeStatisticsFormState>
+	name: FieldPath<T>
+	control: Control<T>
 	placeholder: string
 	className?: string
-	rules?: RegisterOptions
+	rules?: RegisterOptions<T>
 }
 
-export const SelectBox = ({
+export const SelectBox = <T extends FieldValues>({
 	className,
 	name,
 	control,
 	options,
 	placeholder,
 	rules
-}: ISelectProps) => {
-
-	const getLabelForValue = (selectedValue: string) => {
-		const option = options.find(opt => opt.value === selectedValue)
-		return option ? option.label : selectedValue
-	}
-
+}: ISelectProps<T>) => {
 	return (
 		<Controller
-			name={name as keyof TypeBlogFormState | keyof TypeStatisticsFormState}
+			name={name}
 			control={control}
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			rules={rules as any}
+			rules={rules}
 			render={({ field: { value = '', onChange }, fieldState }) => (
-				<SelectProvider
+				<SelectBoxBase
+					options={options}
 					value={value as string}
-					setValue={onChange}
-				>
-					<Select
-						className={cn(
-							`flex justify-between cursor-pointer items-center font-roboto transition-colors duration-300 h-[3rem] w-full px-[1.5rem] outline-none border border-gray-500 rounded-[0.5rem] text-[1rem] leading-[1.125rem] text-green-700 [&>span>svg]:transition-transform [&>span>svg]:duration-300 aria-expanded:[&>span>svg]:rotate-180 placeholder:text-green-700 ${!!fieldState.error && 'border-red-500 text-red-500 placeholder:text-red-500 animate-shake'}`,
-							className
-						)}
-					>
-						{value === '' ? (
-							<span
-								className={`text-green-700 opacity-70 ${!!fieldState.error && 'border-red-500 text-red-500 placeholder:text-red-500 animate-shake'}`}
-							>
-								{placeholder}
-							</span>
-						) : (
-							<span className='text-green-700'>{getLabelForValue(value as string)}</span>
-						)}
-						<SelectArrow />
-					</Select>
-					<SelectPopover
-						gutter={4}
-						sameWidth
-						className='bg-gray-300 z-10 border border-gray-500 rounded-[0.25rem] overflow-hidden scale-y-0 data-[enter]:scale-y-100 origin-top transition-all duration-300'
-					>
-						{options.map(option => (
-							<SelectItem
-								key={option.value}
-								value={option.value}
-								className='text-green-700 flex justify-between items-center data-[active-item]:bg-gray-400 rounded-[0.25rem] h-[3rem] px-[0.5rem] transition-colors duration-300 cursor-pointer'
-							>
-								{option.label}
-								<SelectItemCheck />
-							</SelectItem>
-						))}
-					</SelectPopover>
-				</SelectProvider>
+					onChange={onChange}
+					placeholder={placeholder}
+					className={className}
+					error={!!fieldState.error}
+				/>
 			)}
 		/>
 	)

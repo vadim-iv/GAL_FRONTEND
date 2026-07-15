@@ -6,6 +6,8 @@ import Image from 'next/image'
 import { ADMIN_MEMBERS_TRANSLATE } from '@/constants/admin-members-translate.data'
 import { IMemberResponse } from '@/types/member.types'
 
+import { toInlinePreview } from '@/lib/html-preview.utils'
+
 import { Tag } from '../ui/Tag/Tag'
 import { ROLE_COLOR, ROLE_TITLE_KEY } from './MemberFormModal/MemberRolesInput'
 
@@ -22,24 +24,6 @@ interface Props {
 
 const CELL_CLASS = 'text-[0.875rem] font-[400] text-green-700 truncate'
 
-// Collapses block-level markup (paragraphs, lists) from the rich-text details into a
-// single flowing line for the row preview, while keeping inline formatting (bold,
-// italic, underline) intact. List items become comma-separated instead of bulleted;
-// paragraph breaks become spaces — forcing the original tags to display:inline instead
-// left list items and paragraphs jammed together with no separator at all.
-function toInlinePreview(html: string): string {
-	return html
-		.replace(/<\/li>\s*<li[^>]*>/gi, '</li>, <li>')
-		.replace(/<\/(ul|ol)>\s*<(ul|ol)[^>]*>/gi, '</$1>, <$2>')
-		.replace(/<\/?(ul|ol)[^>]*>/gi, '')
-		.replace(/<li[^>]*>/gi, '')
-		.replace(/<\/li>/gi, '')
-		.replace(/<p[^>]*>/gi, ' ')
-		.replace(/<\/p>/gi, '')
-		.trim()
-		.replace(/,\s*$/, '')
-}
-
 export function MemberRow({
 	member,
 	language,
@@ -51,7 +35,7 @@ export function MemberRow({
 	const previewHtml = (previewField === 'details' ? member.details?.[language] : member.shortDetails[language]) ?? ''
 
 	return (
-		<div className='flex items-center gap-[1rem] border border-gray-500 bg-gray-300 rounded-[1rem] px-[1rem] py-[0.75rem] min-h-22'>
+		<div className='flex items-center gap-[2rem] border border-gray-500 bg-gray-300 rounded-[1rem] px-[1rem] py-[0.75rem] min-h-22'>
 			{showImage && (
 				<div className='relative size-[3.5rem] shrink-0 rounded-[0.5rem] overflow-hidden bg-gray-300'>
 					{member.imageUrl && (

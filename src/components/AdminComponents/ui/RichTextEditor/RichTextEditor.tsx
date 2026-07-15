@@ -16,7 +16,9 @@ import { useEffect } from 'react'
 import { Control, RegisterOptions, useController } from 'react-hook-form'
 
 import { TypeBlogFormState } from '@/types/blog.types'
+import { TypeDecisionFormState } from '@/types/decision.types'
 import { TypeDocumentsFormState } from '@/types/documents.types'
+import { TypeLocalCallFormState, TypeProjectFormState } from '@/types/local-call.types'
 import { TypeMainImageFormState } from '@/types/management.types'
 import { TypeMemberFormState } from '@/types/member.types'
 import { TypeStatisticsFormState } from '@/types/statistics.types'
@@ -35,6 +37,9 @@ interface Props {
 		| Control<TypeMainImageFormState>
 		| Control<TypeDocumentsFormState>
 		| Control<TypeMemberFormState>
+		| Control<TypeLocalCallFormState>
+		| Control<TypeProjectFormState>
+		| Control<TypeDecisionFormState>
 	placeholder: string
 	rules?: RegisterOptions
 }
@@ -46,7 +51,13 @@ export function RichTextEditor({ className, name, control, placeholder, rules }:
 	} = useController({
 		name: name as any,
 		control: control as Control<
-			TypeBlogFormState | TypeStatisticsFormState | TypeMainImageFormState | TypeDocumentsFormState | TypeMemberFormState
+			| TypeBlogFormState
+			| TypeStatisticsFormState
+			| TypeMainImageFormState
+			| TypeDocumentsFormState
+			| TypeMemberFormState
+			| TypeLocalCallFormState
+			| TypeProjectFormState
 		>,
 		rules: rules as any,
 		defaultValue: ''
@@ -93,11 +104,35 @@ export function RichTextEditor({ className, name, control, placeholder, rules }:
 		}
 	}, [editor, value])
 
+	// Only swallow the wheel event (keeping it from reaching Lenis) while the
+	// editor itself still has room to scroll in that direction. Once it hits its
+	// own top/bottom, let the event bubble so Lenis takes over the page scroll —
+	// a static data-lenis-prevent has no such boundary awareness and just blocks
+	// page scrolling entirely for as long as the cursor is over the editor.
+	useEffect(() => {
+		if (!editor) return
+
+		const dom = editor.view.dom as HTMLElement
+
+		const handleWheel = (e: WheelEvent) => {
+			const { scrollTop, scrollHeight, clientHeight } = dom
+			const atTop = scrollTop <= 0
+			const atBottom = scrollTop + clientHeight >= scrollHeight
+			const canScrollInternally = (e.deltaY < 0 && !atTop) || (e.deltaY > 0 && !atBottom)
+
+			if (canScrollInternally) {
+				e.stopPropagation()
+			}
+		}
+
+		dom.addEventListener('wheel', handleWheel, { passive: true })
+		return () => dom.removeEventListener('wheel', handleWheel)
+	}, [editor])
+
 	return (
 		<div className='flex flex-col gap-[0.25rem]'>
 			<Toolbar editor={editor} />
 			<EditorContent
-				data-lenis-prevent
 				editor={editor}
 				style={{ whiteSpace: 'pre-line' }}
 				className={cn(

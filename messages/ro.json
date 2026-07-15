@@ -477,13 +477,33 @@
 		"username": "Utilizator",
 		"password": "Parolă",
 		"visualization_type": "Tip de vizualizare",
+		"status_pending": "În așteptarea aprobării",
+		"status_approved": "Aprobat",
+		"status_rejected": "Respins",
+		"status_closed": "Închis",
+		"status_open": "În desfășurare",
+		"local_call_status_not_started": "Neînceput",
+		"local_call_status_active": "Activ",
+		"local_call_status_ended": "Încheiat",
+		"question_type_radio": "Alegere unică",
+		"question_type_select": "Alegere din listă",
+		"question_type_text": "Text liber",
 		"no_blogs": "Niciun articol găsit",
 		"no_blogs_message": "Nu există articole de afișat momentan.",
+		"no_local_calls": "Niciun apel local găsit",
+		"no_local_calls_message": "Nu există apeluri locale de afișat momentan.",
+		"no_projects": "Niciun proiect găsit",
+		"no_projects_message": "Nu există proiecte de afișat momentan.",
+		"no_decisions": "Nicio decizie găsită",
+		"no_decisions_message": "Nu există decizii de afișat momentan.",
 		"create_one": "Creează unul",
 		"save": "Salvează",
 
 		"delete_question": "Ești sigur că vrei să ștergi articolul?",
 		"permanently_delete_member_question": "Ești sigur că vrei să ștergi definitiv acest membru? Aceasta va elimina contul său și toate rolurile sale. Această acțiune nu poate fi anulată.",
+		"delete_local_call_question": "Ești sigur că vrei să ștergi acest apel local? Aceasta va șterge și toate proiectele sale. Această acțiune nu poate fi anulată.",
+		"delete_project_question": "Ești sigur că vrei să ștergi acest proiect? Această acțiune nu poate fi anulată.",
+		"delete_decision_question": "Ești sigur că vrei să ștergi această decizie? Această acțiune nu poate fi anulată.",
 		"delete_member": "Șterge membrul",
 		"confirm_delete": "Da, șterge",
 		"cancel_delete": "Nu, m-am răzgândit",
@@ -491,8 +511,14 @@
 		"create_new_blog": "Creează un articol nou",
 		"edit_blog": "Editează articolul",
 		"delete_blog": "Șterge articolul",
+		"delete_local_call": "Șterge apelul local",
+		"delete_project": "Șterge proiectul",
+		"delete_decision": "Șterge decizia",
 		"save_blog": "Salvează articolul",
 		"cancel": "Anulează",
+		"view": "Vizualizează",
+		"edit": "Editează",
+		"view_projects": "Vezi proiectele",
 		"data_load_failed": "Nu s-au putut încărca datele. Te rog încearcă din nou.",
 
 		"ToastMessages": {
@@ -530,6 +556,32 @@
 			"member_deleted": "Membrul a fost șters cu succes.",
 			"member_deletion_failed": "A apărut o eroare la ștergerea membrului.",
 
+			"local_call_created": "Apelul local a fost creat cu succes.",
+			"local_call_creation_failed": "A apărut o eroare la crearea apelului local.",
+			"local_call_updated": "Apelul local a fost actualizat cu succes.",
+			"local_call_update_failed": "A apărut o eroare la actualizarea apelului local.",
+			"local_call_deleted": "Apelul local a fost șters cu succes.",
+			"local_call_deletion_failed": "A apărut o eroare la ștergerea apelului local.",
+			"local_call_needs_at_least_one_question": "Apelul local trebuie să aibă cel puțin o întrebare.",
+
+			"project_created": "Proiectul a fost creat cu succes.",
+			"project_creation_failed": "A apărut o eroare la crearea proiectului.",
+			"project_updated": "Proiectul a fost actualizat cu succes.",
+			"project_update_failed": "A apărut o eroare la actualizarea proiectului.",
+			"project_deleted": "Proiectul a fost șters cu succes.",
+			"project_deletion_failed": "A apărut o eroare la ștergerea proiectului.",
+
+			"decision_created": "Decizia a fost creată cu succes.",
+			"decision_creation_failed": "A apărut o eroare la crearea deciziei.",
+			"decision_updated": "Decizia a fost actualizată cu succes.",
+			"decision_update_failed": "A apărut o eroare la actualizarea deciziei.",
+			"decision_deleted": "Decizia a fost ștearsă cu succes.",
+			"decision_deletion_failed": "A apărut o eroare la ștergerea deciziei.",
+			"decision_question_needs_options": "Întrebările cu alegere unică sau din listă necesită cel puțin o opțiune de răspuns.",
+			"decision_needs_at_least_one_question": "Decizia trebuie să aibă cel puțin o întrebare.",
+
+			"pdf_generation_failed": "A apărut o eroare la generarea PDF-ului.",
+
 			"statistics_updated": "Statistica a fost actualizată cu succes.",
 			"statistics_update_failed": "A apărut o eroare la actualizarea statisticicii.",
 
@@ -550,6 +602,61 @@
 			"files_image_format_error_slice_2": "Selecteaza un format valid",
 
 			"please_fill_in_all_required_fields_correctly": "Eroare în formular. Completează toate câmpurile corect."
+		}
+	},
+	"Platform": {
+		"email": "Email",
+		"password": "Parolă",
+		"login": "Autentificare",
+		"forgotPassword": "Ai uitat parola?",
+		"forgotPasswordTitle": "Resetează-ți parola",
+		"forgotPasswordInstructions": "Introdu adresa de email și îți vom trimite un link pentru resetarea parolei.",
+		"forgotPasswordSuccessMessage": "Dacă acest email există, un link de resetare a fost trimis pe el.",
+		"sendResetLink": "Trimite link de resetare",
+		"backToLogin": "Înapoi la autentificare",
+		"resetPasswordTitle": "Resetare parolă",
+		"resetPasswordInstructions": "Apasă mai jos pentru a confirma resetarea parolei.",
+		"resetPasswordInvalidLink": "Acest link de resetare este invalid.",
+		"resetPasswordSuccessMessage": "O parolă nouă a fost trimisă pe adresa ta de email.",
+		"confirmResetPassword": "Confirmă resetarea parolei",
+
+		"logout": "Ieși din cont",
+		"tabLocalCalls": "Apeluri locale",
+		"tabDecisions": "Decizii",
+
+		"selectPlaceholder": "Selectează o opțiune",
+
+		"seeProjects": "Vezi proiectele",
+		"vote": "Votează",
+		"viewYourVote": "Vezi votul tău",
+		"votedBadge": "Ai votat",
+
+		"voteNotStarted": "Începe la {date}",
+		"voteActive": "Activ până la {date}",
+		"voteEnded": "Încheiată la {date}",
+		"voteWindowNotStartedMessage": "Votarea nu a început încă.",
+		"voteWindowActiveMessage": "Votarea este momentan deschisă.",
+		"voteWindowEndedMessage": "Votarea s-a încheiat.",
+
+		"loading": "Se încarcă...",
+		"dataLoadFailed": "Nu s-au putut încărca datele. Te rog încearcă din nou.",
+		"noLocalCalls": "Niciun apel local găsit.",
+		"noDecisions": "Nicio decizie găsită.",
+		"noProjects": "Niciun proiect găsit.",
+		"projects": "Proiecte",
+		"seeDocumentation": "Vezi documentația",
+		"alreadyVotedMessage": "Ai votat deja — iată ce ai trimis.",
+		"submitVote": "Trimite votul",
+		"submitting": "Se trimite...",
+		"answerAllQuestions": "Te rugăm să răspunzi la toate întrebările înainte de a trimite.",
+
+		"ToastMessages": {
+			"loginSuccess": "Autentificare reușită.",
+			"loginError": "Email sau parolă incorecte.",
+			"forgotPasswordFailed": "Ceva nu a funcționat. Te rog încearcă din nou.",
+			"resetPasswordFailed": "Ceva nu a funcționat. Te rog încearcă din nou.",
+			"voteSubmitted": "Votul tău a fost trimis cu succes.",
+			"voteSubmitFailed": "A apărut o eroare la trimiterea votului."
 		}
 	}
 }

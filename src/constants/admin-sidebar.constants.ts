@@ -245,5 +245,79 @@ export const ADMIN_PAGE_HEADERS = {
 			en: 'Dynamic Content',
 			ru: 'Динамическое'
 		}
+	},
+
+	localCallsPage: {
+		title: {
+			ro: 'Apeluri locale',
+			en: 'Local Calls',
+			ru: 'Местные вызовы'
+		},
+		slug: ''
+	},
+	createLocalCallPage: {
+		title: {
+			ro: 'Adaugă apel local',
+			en: 'Add local call',
+			ru: 'Добавить местный вызов'
+		},
+		slug: ''
+	},
+	editLocalCallPage: {
+		title: {
+			ro: 'Apeluri locale',
+			en: 'Local Calls',
+			ru: 'Местные вызовы'
+		},
+		slug: ''
+	},
+	localCallProjectsPage: {
+		title: {
+			ro: 'Apeluri locale',
+			en: 'Local Calls',
+			ru: 'Местные вызовы'
+		},
+		slug: ''
+	},
+	createProjectPage: {
+		title: {
+			ro: 'Adaugă proiect',
+			en: 'Add project',
+			ru: 'Добавить проект'
+		},
+		slug: ''
+	},
+	editProjectPage: {
+		title: {
+			ro: 'Editează proiectul',
+			en: 'Edit project',
+			ru: 'Редактировать проект'
+		},
+		slug: ''
+	},
+
+	decisionsPage: {
+		title: {
+			ro: 'Decizii',
+			en: 'Decisions',
+			ru: 'Решения'
+		},
+		slug: ''
+	},
+	createDecisionPage: {
+		title: {
+			ro: 'Adaugă decizie',
+			en: 'Add decision',
+			ru: 'Добавить решение'
+		},
+		slug: ''
+	},
+	editDecisionPage: {
+		title: {
+			ro: 'Decizii',
+			en: 'Decisions',
+			ru: 'Решения'
+		},
+		slug: ''
 	}
 } as const

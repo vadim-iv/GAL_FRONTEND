@@ -7,6 +7,8 @@ import { ADMIN_PAGES } from '@/config/admin-pages.config'
 
 import { usePathname } from '@/i18n/navigation'
 import { blogService } from '@/services/blog.service'
+import { decisionService } from '@/services/decision.service'
+import { localCallService } from '@/services/local-call.service'
 import { useParams } from 'next/navigation'
 
 export function usePageTitle() {
@@ -19,13 +21,59 @@ export function usePageTitle() {
 
 	const isEditBlogPage = pathname.includes(ADMIN_PAGES.EDIT_BLOG)
 	const id = isEditBlogPage ? params.id as string : ""
-	const { data: blogData, isLoading: isSlugLoading } = useQuery({
+	const { data: blogData, isLoading: isBlogSlugLoading } = useQuery({
 		queryKey: ['blog', id],
 		queryFn: () => blogService.getBlogById(id),
 		enabled: isEditBlogPage && !!id
 	})
 
-	if (pathname.includes(ADMIN_PAGES.NEWS)) {
+	// Every local-call-nested route ([id]/projects, [id]/projects/create,
+	// [id]/projects/edit/[projectId]) and the flat edit-local-call/[id] route all
+	// need the parent local call's name for the breadcrumb slug.
+	const isLocalCallRelated =
+		pathname.includes(ADMIN_PAGES.LOCAL_CALLS) || pathname.includes(ADMIN_PAGES.EDIT_LOCAL_CALL)
+	const localCallId = isLocalCallRelated ? (params.id as string) : ''
+	const { data: localCallResponse, isLoading: isLocalCallSlugLoading } = useQuery({
+		queryKey: ['localCall', localCallId],
+		queryFn: () => localCallService.getLocalCallById(localCallId),
+		enabled: isLocalCallRelated && !!localCallId
+	})
+	const localCallData = localCallResponse?.data
+
+	// edit-decision/[id] needs the decision's title for the breadcrumb slug.
+	const isEditDecisionPage = pathname.includes(ADMIN_PAGES.EDIT_DECISION)
+	const decisionId = isEditDecisionPage ? (params.id as string) : ''
+	const { data: decisionResponse, isLoading: isDecisionSlugLoading } = useQuery({
+		queryKey: ['decision', decisionId],
+		queryFn: () => decisionService.getDecisionById(decisionId),
+		enabled: isEditDecisionPage && !!decisionId
+	})
+	const decisionData = decisionResponse?.data
+
+	const isSlugLoading = isBlogSlugLoading || isLocalCallSlugLoading || isDecisionSlugLoading
+
+	// Ordered most-specific-first: every nested project route shares the
+	// /admin/local-calls prefix, so the more specific checks must run before the
+	// generic local-calls-list fallback.
+	if (pathname.includes(ADMIN_PAGES.LOCAL_CALLS) && pathname.includes('/projects/edit/')) {
+		pageTitle = localCallData?.name[locale] || ADMIN_PAGE_HEADERS.editProjectPage.title[locale]
+		pageSlug = ADMIN_PAGE_HEADERS.editProjectPage.title[locale]
+	} else if (pathname.includes(ADMIN_PAGES.LOCAL_CALLS) && pathname.includes('/projects/create')) {
+		pageTitle = localCallData?.name[locale] || ADMIN_PAGE_HEADERS.createProjectPage.title[locale]
+		pageSlug = ADMIN_PAGE_HEADERS.createProjectPage.title[locale]
+	} else if (pathname.includes(ADMIN_PAGES.LOCAL_CALLS) && pathname.includes('/projects')) {
+		pageTitle = ADMIN_PAGE_HEADERS.localCallProjectsPage.title[locale]
+		pageSlug = localCallData?.name[locale] || ''
+	} else if (pathname.includes(ADMIN_PAGES.CREATE_LOCAL_CALL)) {
+		pageTitle = ADMIN_PAGE_HEADERS.createLocalCallPage.title[locale]
+		pageSlug = ADMIN_PAGE_HEADERS.createLocalCallPage.slug
+	} else if (pathname.includes(ADMIN_PAGES.EDIT_LOCAL_CALL)) {
+		pageTitle = ADMIN_PAGE_HEADERS.editLocalCallPage.title[locale]
+		pageSlug = localCallData?.name[locale] || ''
+	} else if (pathname.includes(ADMIN_PAGES.LOCAL_CALLS)) {
+		pageTitle = ADMIN_PAGE_HEADERS.localCallsPage.title[locale]
+		pageSlug = ADMIN_PAGE_HEADERS.localCallsPage.slug
+	} else if (pathname.includes(ADMIN_PAGES.NEWS)) {
 		pageTitle = ADMIN_PAGE_HEADERS.newsPage.title[locale]
 		pageSlug = ADMIN_PAGE_HEADERS.newsPage.slug
 	} else if (pathname.includes(ADMIN_PAGES.PROJECTS)) {
@@ -58,6 +106,15 @@ export function usePageTitle() {
 	} else if (pathname.includes(ADMIN_PAGES.STATISTICS)) {
 		pageTitle = ADMIN_PAGE_HEADERS.statisticsPage.title[locale]
 		pageSlug = ADMIN_PAGE_HEADERS.statisticsPage.slug[locale]
+	} else if (pathname.includes(ADMIN_PAGES.CREATE_DECISION)) {
+		pageTitle = ADMIN_PAGE_HEADERS.createDecisionPage.title[locale]
+		pageSlug = ADMIN_PAGE_HEADERS.createDecisionPage.slug
+	} else if (pathname.includes(ADMIN_PAGES.EDIT_DECISION)) {
+		pageTitle = ADMIN_PAGE_HEADERS.editDecisionPage.title[locale]
+		pageSlug = decisionData?.title[locale] || ''
+	} else if (pathname.includes(ADMIN_PAGES.DECISIONS)) {
+		pageTitle = ADMIN_PAGE_HEADERS.decisionsPage.title[locale]
+		pageSlug = ADMIN_PAGE_HEADERS.decisionsPage.slug
 	}
 
 	return {

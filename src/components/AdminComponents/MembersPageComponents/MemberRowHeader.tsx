@@ -8,7 +8,7 @@ interface Props {
 
 export function MemberRowHeader({ language, showImage, readOnly }: Props) {
 	return (
-		<div className='flex items-center gap-[1rem] px-[1rem]'>
+		<div className='flex items-center gap-[2rem] px-[1rem]'>
 			{showImage && <div className='w-[3.5rem] shrink-0' />}
 
 			<p className='w-[14rem] shrink-0 text-[0.875rem] font-bold text-green-700'>

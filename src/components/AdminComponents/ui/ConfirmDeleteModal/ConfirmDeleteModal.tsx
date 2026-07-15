@@ -35,6 +35,7 @@ export function ConfirmDeleteModal({ handleDelete, setDeleteModalOpen, message, 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            onClick={e => e.stopPropagation()}
         >
             <motion.div
                 initial={{ y: "-10%" }}

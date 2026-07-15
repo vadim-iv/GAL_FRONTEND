@@ -19,8 +19,34 @@ class DASHBOARD {
     DECISIONS = `${this.root}/decisions`
     LOCAL_CALLS = `${this.root}/local-calls`
 
+    CREATE_LOCAL_CALL = `${this.root}/create-local-call`
+    EDIT_LOCAL_CALL = `${this.root}/edit-local-call`
+
+    CREATE_DECISION = `${this.root}/create-decision`
+    EDIT_DECISION = `${this.root}/edit-decision`
+
     getBlogEditPage(blogId: string) {
         return `${this.EDIT_BLOG}/${blogId}`
+    }
+
+    getDecisionEditPage(id: string) {
+        return `${this.EDIT_DECISION}/${id}`
+    }
+
+    getLocalCallEditPage(id: string) {
+        return `${this.EDIT_LOCAL_CALL}/${id}`
+    }
+
+    getLocalCallProjectsPage(localCallId: string) {
+        return `${this.LOCAL_CALLS}/${localCallId}/projects`
+    }
+
+    getCreateProjectPage(localCallId: string) {
+        return `${this.LOCAL_CALLS}/${localCallId}/projects/create`
+    }
+
+    getProjectEditPage(localCallId: string, projectId: string) {
+        return `${this.LOCAL_CALLS}/${localCallId}/projects/edit/${projectId}`
     }
 }
 
