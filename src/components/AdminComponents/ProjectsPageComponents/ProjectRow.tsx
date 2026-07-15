@@ -10,6 +10,7 @@ import { ADMIN_PAGES } from '@/config/admin-pages.config'
 import { IProjectResponse } from '@/types/local-call.types'
 
 import { toInlinePreview } from '@/lib/html-preview.utils'
+import { openBlankTab } from '@/lib/pdf-download.utils'
 
 import { useDeleteProject } from '@/hooks/local-call/useDeleteProject'
 import { useDownloadProjectResultsPdf } from '@/hooks/local-call/useDownloadProjectResultsPdf'
@@ -63,7 +64,9 @@ export function ProjectRow({ project, localCallId, language }: Props) {
 			<div className='ml-auto flex items-center gap-[1.5rem] shrink-0'>
 				<div
 					className='flex items-center gap-[0.375rem] cursor-pointer hover:opacity-70 transition-opacity duration-300'
-					onClick={() => downloadProjectResultsPdf({ id: localCallId, projectId: project._id, lang: language })}
+					onClick={() =>
+						downloadProjectResultsPdf({ id: localCallId, projectId: project._id, lang: language, tab: openBlankTab() })
+					}
 				>
 					<FileText className='size-[1rem] shrink-0 text-green-700' />
 					<p className='text-[0.875rem] text-green-700 underline whitespace-nowrap'>
