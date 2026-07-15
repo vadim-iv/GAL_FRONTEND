@@ -33,6 +33,12 @@ export const ADMIN_DECISIONS_TRANSLATE = {
 		ru: 'PDF результатов'
 	},
 
+	generatingPdfLabel: {
+		ro: 'Se generează...',
+		en: 'Generating...',
+		ru: 'Формируется...'
+	},
+
 	modifyLabel: {
 		ro: 'Modifică',
 		en: 'Edit',

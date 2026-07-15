@@ -36,7 +36,7 @@ export function DecisionRow({ decision, language }: Props) {
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
 	const { deleteDecision } = useDeleteDecision()
-	const { downloadResultsPdf } = useDownloadResultsPdf()
+	const { downloadResultsPdf, isDownloadPending } = useDownloadResultsPdf()
 
 	return (
 		<div className='flex items-center gap-[2rem] border border-gray-500 bg-gray-300 rounded-[1rem] px-[1rem] py-[0.75rem] min-h-22'>
@@ -57,12 +57,16 @@ export function DecisionRow({ decision, language }: Props) {
 
 			<div className='ml-auto flex items-center gap-[1.5rem] shrink-0'>
 				<div
-					className='flex items-center gap-[0.375rem] cursor-pointer hover:opacity-70 transition-opacity duration-300'
-					onClick={() => downloadResultsPdf({ id: decision._id, lang: language })}
+					className={`flex items-center gap-[0.375rem] transition-opacity duration-300 ${
+						isDownloadPending ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer hover:opacity-70'
+					}`}
+					onClick={() => !isDownloadPending && downloadResultsPdf({ id: decision._id, lang: language })}
 				>
 					<FileText className='size-[1rem] shrink-0 text-green-700' />
 					<p className='text-[0.875rem] text-green-700 underline whitespace-nowrap'>
-						{ADMIN_DECISIONS_TRANSLATE.resultsPdfLabel[language]}
+						{isDownloadPending
+							? ADMIN_DECISIONS_TRANSLATE.generatingPdfLabel[language]
+							: ADMIN_DECISIONS_TRANSLATE.resultsPdfLabel[language]}
 					</p>
 				</div>
 

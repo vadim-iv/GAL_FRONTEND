@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 
 import { errorCatch } from '@/api/error'
-import { openPdfBlobInNewTab } from '@/lib/pdf-download.utils'
+import { downloadPdfBlob } from '@/lib/pdf-download.utils'
 
 import { localCallService } from '@/services/local-call.service'
 
@@ -15,7 +15,7 @@ export function useDownloadProjectResultsPdf() {
 		mutationFn: ({ id, projectId, lang }: { id: string; projectId: string; lang: 'ro' | 'ru' | 'en' }) =>
 			localCallService.downloadProjectResultsPdf(id, projectId, lang),
 		onSuccess: response => {
-			openPdfBlobInNewTab(response.data as Blob, 'project-results.pdf')
+			downloadPdfBlob(response.data as Blob, 'project-results.pdf')
 		},
 		onError: error => {
 			toast.error(errorCatch(error) || t('pdf_generation_failed'))
