@@ -11,7 +11,6 @@ import { ADMIN_PAGES } from '@/config/admin-pages.config'
 import { IDecisionResponse } from '@/types/decision.types'
 
 import { toInlinePreview } from '@/lib/html-preview.utils'
-import { openBlankTab } from '@/lib/pdf-download.utils'
 
 import { useDeleteDecision } from '@/hooks/decision/useDeleteDecision'
 import { useDownloadResultsPdf } from '@/hooks/decision/useDownloadResultsPdf'
@@ -59,7 +58,7 @@ export function DecisionRow({ decision, language }: Props) {
 			<div className='ml-auto flex items-center gap-[1.5rem] shrink-0'>
 				<div
 					className='flex items-center gap-[0.375rem] cursor-pointer hover:opacity-70 transition-opacity duration-300'
-					onClick={() => downloadResultsPdf({ id: decision._id, lang: language, tab: openBlankTab() })}
+					onClick={() => downloadResultsPdf({ id: decision._id, lang: language })}
 				>
 					<FileText className='size-[1rem] shrink-0 text-green-700' />
 					<p className='text-[0.875rem] text-green-700 underline whitespace-nowrap'>
