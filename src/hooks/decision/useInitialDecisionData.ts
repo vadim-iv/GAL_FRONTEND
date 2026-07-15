@@ -16,6 +16,10 @@ export function useInitialDecisionData(id: string, reset: UseFormReset<TypeDecis
 				description: decision.description,
 				imageUrl: decision.imageUrl,
 				status: decision.status,
+				// `answers` is destructured out (not read) specifically to exclude it from the
+				// form payload — the edit form must never submit votes back, or the backend
+				// would overwrite them with the default empty array on save.
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 				questions: decision.questions.map(({ answers, ...question }) => question),
 				voteStart: format(new Date(decision.voteStart), "yyyy-MM-dd'T'HH:mm"),
 				voteEnd: format(new Date(decision.voteEnd), "yyyy-MM-dd'T'HH:mm")
