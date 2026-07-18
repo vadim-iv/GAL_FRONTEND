@@ -11,6 +11,8 @@ import { ILocalCallResponse } from '@/types/local-call.types'
 import { ArrowIcon } from '../Icons/ArrowIcon'
 import { Button } from '../ui/Button'
 
+import { ImageFallback } from '@/components/PlatformComponents/ImageFallback'
+
 import { useRouter } from '@/i18n/navigation'
 import { Pathnames } from '@/i18n/routing'
 
@@ -30,7 +32,7 @@ export function LocalCallCard({ localCall, language }: Props) {
 			onClick={() => router.push(ADMIN_PAGES.getLocalCallEditPage(localCall._id) as Pathnames)}
 		>
 			<div className='w-full relative h-[16.5rem] max-h-[16.5rem] shrink-0 bg-gray-400'>
-				{localCall.imageUrl && (
+				{localCall.imageUrl ? (
 					<Image
 						src={localCall.imageUrl}
 						alt='local call image'
@@ -39,6 +41,8 @@ export function LocalCallCard({ localCall, language }: Props) {
 						className='object-cover w-full h-full'
 						draggable={false}
 					/>
+				) : (
+					<ImageFallback />
 				)}
 			</div>
 

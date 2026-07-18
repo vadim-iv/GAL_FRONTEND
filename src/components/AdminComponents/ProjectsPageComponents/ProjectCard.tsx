@@ -10,6 +10,8 @@ import { ArrowIcon } from '../Icons/ArrowIcon'
 import { Button } from '../ui/Button'
 import { StatusBadge } from '../ui/StatusBadge/StatusBadge'
 
+import { ImageFallback } from '@/components/PlatformComponents/ImageFallback'
+
 import { Link } from '@/i18n/navigation'
 import { Pathnames } from '@/i18n/routing'
 
@@ -32,7 +34,7 @@ export function ProjectCard({ project, localCallId, language }: Props) {
 					<div className='absolute top-[1rem] left-[1rem] z-10'>
 						<StatusBadge status={project.status} />
 					</div>
-					{project.imageUrl && (
+					{project.imageUrl ? (
 						<Image
 							src={project.imageUrl}
 							alt='project image'
@@ -41,6 +43,8 @@ export function ProjectCard({ project, localCallId, language }: Props) {
 							className='object-cover w-full h-full'
 							draggable={false}
 						/>
+					) : (
+						<ImageFallback />
 					)}
 				</div>
 

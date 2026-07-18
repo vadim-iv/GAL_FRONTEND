@@ -10,6 +10,8 @@ import { ArrowIcon } from '../Icons/ArrowIcon'
 import { Button } from '../ui/Button'
 import { DecisionStatusBadge } from '../ui/DecisionStatusBadge/DecisionStatusBadge'
 
+import { ImageFallback } from '@/components/PlatformComponents/ImageFallback'
+
 import { Link } from '@/i18n/navigation'
 import { Pathnames } from '@/i18n/routing'
 
@@ -31,7 +33,7 @@ export function DecisionCard({ decision, language }: Props) {
 					<div className='absolute top-[1rem] left-[1rem] z-10'>
 						<DecisionStatusBadge status={decision.status} />
 					</div>
-					{decision.imageUrl && (
+					{decision.imageUrl ? (
 						<Image
 							src={decision.imageUrl}
 							alt='decision image'
@@ -40,6 +42,8 @@ export function DecisionCard({ decision, language }: Props) {
 							className='object-cover w-full h-full'
 							draggable={false}
 						/>
+					) : (
+						<ImageFallback />
 					)}
 				</div>
 
