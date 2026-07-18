@@ -11,6 +11,7 @@ export function toInlinePreview(html: string): string {
 		.replace(/<\/li>/gi, '')
 		.replace(/<p[^>]*>/gi, ' ')
 		.replace(/<\/p>/gi, '')
+		.replace(/<br[^>]*>/gi, ' ')
 		.trim()
 		.replace(/,\s*$/, '')
 }
