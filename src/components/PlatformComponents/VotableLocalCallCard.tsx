@@ -13,6 +13,7 @@ import { Button } from '@/components/AdminComponents/ui/Button'
 import { Link } from '@/i18n/navigation'
 import { Pathnames } from '@/i18n/routing'
 
+import { ImageFallback } from './ImageFallback'
 import { PlatformVoteWindowBadge } from './PlatformVoteWindowBadge'
 
 interface Props {
@@ -35,7 +36,7 @@ export function VotableLocalCallCard({ localCall, language }: Props) {
 					<div className='absolute top-[1rem] right-[1rem] z-10'>
 						<PlatformVoteWindowBadge voteStart={localCall.voteStart} voteEnd={localCall.voteEnd} />
 					</div>
-					{localCall.imageUrl && (
+					{localCall.imageUrl ? (
 						<Image
 							src={localCall.imageUrl}
 							alt='local call image'
@@ -44,6 +45,8 @@ export function VotableLocalCallCard({ localCall, language }: Props) {
 							className='object-cover w-full h-full'
 							draggable={false}
 						/>
+					) : (
+						<ImageFallback />
 					)}
 				</div>
 

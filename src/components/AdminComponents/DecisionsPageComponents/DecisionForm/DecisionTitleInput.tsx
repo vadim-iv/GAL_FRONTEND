@@ -7,6 +7,8 @@ import { FormState, UseFormRegister } from 'react-hook-form'
 import { ADMIN_DECISIONS_TRANSLATE } from '@/constants/admin-decisions-translate.data'
 import { TypeDecisionFormState } from '@/types/decision.types'
 
+import { isMultiLangComplete } from '@/lib/multi-lang.utils'
+
 import { InputField } from '../../ui/InputField'
 
 interface Props {
@@ -15,13 +17,19 @@ interface Props {
 	formState: FormState<TypeDecisionFormState>
 }
 
+// All 3 languages are always registered (not conditionally mounted per tab) —
+// the rule still validates ALL THREE together, not just the field's own
+// value, so e.g. a completed Romanian tab still shows red while
+// Russian/English are empty.
+const titleValidate = (_value: string, formValues: TypeDecisionFormState) => isMultiLangComplete(formValues.title)
+
 export function DecisionTitleInput({ language, register, formState }: Props) {
 	const hasError = formState.errors.title
 
 	useEffect(() => {
-		register('title.ro', { required: true })
-		register('title.ru', { required: true })
-		register('title.en', { required: true })
+		register('title.ro', { validate: titleValidate })
+		register('title.ru', { validate: titleValidate })
+		register('title.en', { validate: titleValidate })
 	}, [register])
 
 	return (
@@ -33,7 +41,7 @@ export function DecisionTitleInput({ language, register, formState }: Props) {
 				key={`title-${language}`}
 				hasError={!!hasError}
 				placeholder={ADMIN_DECISIONS_TRANSLATE.titleInput[language].placeholder}
-				{...register(`title.${language}`, { required: true })}
+				{...register(`title.${language}`, { validate: titleValidate })}
 			/>
 			<ErrorMessage
 				errors={formState.errors}

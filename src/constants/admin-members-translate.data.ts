@@ -35,6 +35,11 @@ export const ADMIN_MEMBERS_TRANSLATE = {
 			en: 'Executive Body',
 			ru: 'Исполнительный орган'
 		},
+		generalAssembly: {
+			ro: 'Adunarea Generală',
+			en: 'General Assembly',
+			ru: 'Общее собрание'
+		},
 		administration: {
 			ro: 'Administrația GAL',
 			en: 'GAL Administration',
@@ -102,6 +107,11 @@ export const ADMIN_MEMBERS_TRANSLATE = {
 			en: 'Add member',
 			ru: 'Добавить участника'
 		},
+		generalAssembly: {
+			ro: 'Adaugă membru',
+			en: 'Add member',
+			ru: 'Добавить участника'
+		},
 		administration: {
 			ro: 'Adaugă membru',
 			en: 'Add member',
@@ -132,37 +142,43 @@ export const ADMIN_MEMBERS_TRANSLATE = {
 
 	emailInput: {
 		ro: {
-			label: 'Email',
+			label: 'Email (opțional)',
 			placeholder: 'Introduceți adresa de email',
-			error: 'O adresă de email validă este obligatorie'
+			error: 'Introduceți o adresă de email validă'
 		},
 		en: {
-			label: 'Email',
+			label: 'Email (optional)',
 			placeholder: 'Enter email address',
-			error: 'A valid email address is required'
+			error: 'Please enter a valid email address'
 		},
 		ru: {
-			label: 'Email',
+			label: 'Email (необязательно)',
 			placeholder: 'Введите адрес электронной почты',
-			error: 'Требуется действительный адрес электронной почты'
+			error: 'Введите корректный адрес электронной почты'
 		}
+	},
+
+	noEmailPlaceholder: {
+		ro: 'Niciun email atașat încă',
+		en: 'No email attached yet',
+		ru: 'Email пока не привязан'
 	},
 
 	nameInput: {
 		ro: {
 			label: 'Nume',
 			placeholder: 'Introduceți numele',
-			error: 'Numele este obligatoriu'
+			error: 'Numele este obligatoriu în toate cele 3 limbi'
 		},
 		en: {
 			label: 'Name',
 			placeholder: 'Enter name',
-			error: 'Name is required'
+			error: 'The name is required in all 3 languages'
 		},
 		ru: {
 			label: 'Имя',
 			placeholder: 'Введите имя',
-			error: 'Имя обязательно'
+			error: 'Имя должно быть заполнено на всех 3 языках'
 		}
 	},
 
@@ -171,17 +187,17 @@ export const ADMIN_MEMBERS_TRANSLATE = {
 		ro: {
 			label: 'Detalii scurte',
 			placeholder: 'Introduceți detaliile scurte ale membrului',
-			error: 'Detaliile scurte sunt obligatorii'
+			error: 'Detaliile scurte sunt obligatorii în toate cele 3 limbi'
 		},
 		en: {
 			label: 'Short details',
 			placeholder: 'Enter member short details',
-			error: 'Short details are required'
+			error: 'Short details are required in all 3 languages'
 		},
 		ru: {
 			label: 'Краткие сведения',
 			placeholder: 'Введите краткие сведения об участнике',
-			error: 'Краткие сведения обязательны'
+			error: 'Краткие сведения должны быть заполнены на всех 3 языках'
 		}
 	},
 
@@ -190,17 +206,17 @@ export const ADMIN_MEMBERS_TRANSLATE = {
 		ro: {
 			label: 'Despre Președinte',
 			placeholder: 'Introduceți informații despre Președinte',
-			error: 'Informațiile despre Președinte sunt obligatorii'
+			error: 'Informațiile despre Președinte sunt obligatorii în toate cele 3 limbi'
 		},
 		en: {
 			label: 'About the President',
 			placeholder: 'Enter information about the President',
-			error: 'Information about the President is required'
+			error: 'Information about the President is required in all 3 languages'
 		},
 		ru: {
 			label: 'О Президенте',
 			placeholder: 'Введите информацию о Президенте',
-			error: 'Информация о Президенте обязательна'
+			error: 'Информация о Президенте должна быть заполнена на всех 3 языках'
 		}
 	},
 

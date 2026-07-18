@@ -74,7 +74,7 @@ export function ProjectForm({
 			{isEditMode && <ProjectStatusInput language={language} control={control} />}
 
 			<ProjectTitleInput language={language} register={register} formState={formState} />
-			<ProjectDescriptionInput language={language} register={register} control={control} formState={formState} />
+			<ProjectDescriptionInput language={language} control={control} formState={formState} />
 			<ProjectPdfInput
 				language={language}
 				control={control}

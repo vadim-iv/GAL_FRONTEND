@@ -39,7 +39,7 @@ export function LocalCallRow({ localCall, language }: Props) {
 			className='flex items-center gap-[2rem] border border-gray-500 bg-gray-300 rounded-[1rem] px-[1rem] py-[0.75rem] min-h-22 cursor-pointer'
 			onClick={() => router.push(ADMIN_PAGES.getLocalCallProjectsPage(localCall._id) as Pathnames)}
 		>
-			<p className={`w-[14rem] shrink-0 ${CELL_CLASS}`}>{localCall.name[language]}</p>
+			<p className='w-[14rem] shrink-0 text-[0.875rem] font-bold text-green-700 truncate'>{localCall.name[language]}</p>
 
 			<div
 				className={`flex-1 min-w-0 ${CELL_CLASS}`}

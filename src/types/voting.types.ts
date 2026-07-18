@@ -12,7 +12,10 @@ export interface ISubmitProjectVotePayload {
 
 export interface IDecisionVoteAnswer {
 	questionId: string
-	value: string
+	// Single selected value — used by RADIO/TEXT questions.
+	value?: string
+	// Selected option values — used by CHECKBOX (multi-select) questions instead of `value`.
+	values?: string[]
 	memberId: string
 }
 

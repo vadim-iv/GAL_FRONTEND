@@ -13,6 +13,7 @@
 	--forest-700: oklch(0.4153 0.0925 136.96);
 	--forest-600: oklch(0.4854 0.111 136.82);
 	--forest-500: oklch(0.5532 0.1277 136.91);
+	--forest-400: oklch(0.6200 0.1400 136.80);
 	--stone-900: oklch(0.3711 0.0017 106.48);
 	--stone-600: oklch(0.5974 0.0012 17.19);
 	--stone-400: oklch(0.8044 0.0014 106.43);
@@ -98,6 +99,7 @@
 	--color-forest-700: var(--forest-700);
 	--color-forest-600: var(--forest-600);
 	--color-forest-500: var(--forest-500);
+	--color-forest-400: var(--forest-400);
 	--color-stone-900: var(--stone-900);
 	--color-stone-600: var(--stone-600);
 	--color-stone-400: var(--stone-400);

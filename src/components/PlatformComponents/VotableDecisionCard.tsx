@@ -18,6 +18,7 @@ import { hasVotedOnDecision } from '@/lib/vote-answers.utils'
 import { Link } from '@/i18n/navigation'
 import { Pathnames } from '@/i18n/routing'
 
+import { ImageFallback } from './ImageFallback'
 import { PlatformVoteWindowBadge } from './PlatformVoteWindowBadge'
 import { VotedBadge } from './VotedBadge'
 
@@ -46,7 +47,7 @@ export function VotableDecisionCard({ decision, language }: Props) {
 					<div className='absolute top-[1rem] right-[1rem] z-10'>
 						<PlatformVoteWindowBadge voteStart={decision.voteStart} voteEnd={decision.voteEnd} />
 					</div>
-					{decision.imageUrl && (
+					{decision.imageUrl ? (
 						<Image
 							src={decision.imageUrl}
 							alt='decision image'
@@ -55,6 +56,8 @@ export function VotableDecisionCard({ decision, language }: Props) {
 							className='object-cover w-full h-full'
 							draggable={false}
 						/>
+					) : (
+						<ImageFallback />
 					)}
 				</div>
 

@@ -53,7 +53,7 @@ export function LocalCallForm({
 			)}
 
 			<LocalCallNameInput language={language} register={register} formState={formState} />
-			<LocalCallDescriptionInput language={language} register={register} control={control} formState={formState} />
+			<LocalCallDescriptionInput language={language} control={control} formState={formState} />
 			<LocalCallImageInput
 				language={language}
 				control={control}

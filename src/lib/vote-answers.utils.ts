@@ -1,7 +1,15 @@
 import { IProjectAnswer } from '@/types/local-call.types'
 import { IDecisionAnswer } from '@/types/decision.types'
 
-function answerMemberId(memberId: IProjectAnswer['memberId'] | IDecisionAnswer['memberId']): string {
+// A populated memberId resolves to null when the member who cast that vote was
+// later deleted — the answer subdocument still holds the old ObjectId reference,
+// but there's nothing left to populate it with. Such an answer can never belong
+// to the current (still-existing) member, so it's treated as a non-match rather
+// than crashing.
+export function answerMemberId(
+	memberId: IProjectAnswer['memberId'] | IDecisionAnswer['memberId'] | null
+): string | null {
+	if (!memberId) return null
 	return typeof memberId === 'string' ? memberId : memberId._id
 }
 

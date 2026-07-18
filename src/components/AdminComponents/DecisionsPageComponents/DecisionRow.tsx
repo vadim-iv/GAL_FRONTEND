@@ -40,7 +40,7 @@ export function DecisionRow({ decision, language }: Props) {
 
 	return (
 		<div className='flex items-center gap-[2rem] border border-gray-500 bg-gray-300 rounded-[1rem] px-[1rem] py-[0.75rem] min-h-22'>
-			<p className={`w-[15rem] shrink-0 ${CELL_CLASS}`}>{decision.title[language]}</p>
+			<p className='w-[15rem] shrink-0 text-[0.875rem] font-bold text-green-700 truncate'>{decision.title[language]}</p>
 
 			<div
 				className={`flex-1 min-w-0 ${CELL_CLASS}`}

@@ -3,7 +3,7 @@ import { DecisionStatusEnum } from './shared/decision-status.types'
 
 export enum DecisionQuestionType {
 	RADIO = 'radio',
-	SELECT = 'select',
+	CHECKBOX = 'checkbox',
 	TEXT = 'text'
 }
 
@@ -13,8 +13,13 @@ export interface IDecisionOption {
 }
 
 export interface IDecisionAnswer {
-	memberId: string | { _id: string; name: IMultiLangText; email: string }
-	value: string
+	// null when the member who cast this vote was later deleted — the populated
+	// reference has nothing left to resolve to.
+	memberId: string | { _id: string; name: IMultiLangText; email: string } | null
+	// Single selected value — used by RADIO/TEXT answers.
+	value?: string
+	// Selected option values — used by CHECKBOX (multi-select) answers instead of `value`.
+	values?: string[]
 }
 
 export interface IDecisionQuestion {

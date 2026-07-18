@@ -12,7 +12,12 @@ import { routing } from '@/i18n/routing'
 
 import './globals.css'
 
+// Required for Next.js to resolve relative OG/Twitter image URLs (e.g.
+// '/meta_image.jpg' in each page's generateMetadata()) into absolute URLs —
+// without this it falls back to inferring the deploy URL, which isn't reliable
+// for a custom domain.
 export const metadata: Metadata = {
+	metadataBase: new URL('https://www.galstejaruldacilor.md'),
 	icons: {
 		icon: [
 			{

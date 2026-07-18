@@ -7,6 +7,8 @@ import { FormState, UseFormRegister } from 'react-hook-form'
 import { ADMIN_LOCAL_CALLS_TRANSLATE } from '@/constants/admin-local-calls-translate.data'
 import { TypeLocalCallFormState } from '@/types/local-call.types'
 
+import { isMultiLangComplete } from '@/lib/multi-lang.utils'
+
 import { InputField } from '../../ui/InputField'
 
 interface Props {
@@ -15,13 +17,19 @@ interface Props {
 	formState: FormState<TypeLocalCallFormState>
 }
 
+// All 3 languages are always registered (not conditionally mounted per tab) —
+// the rule still validates ALL THREE together, not just the field's own
+// value, so e.g. a completed Romanian tab still shows red while
+// Russian/English are empty.
+const nameValidate = (_value: string, formValues: TypeLocalCallFormState) => isMultiLangComplete(formValues.name)
+
 export function LocalCallNameInput({ language, register, formState }: Props) {
 	const hasError = formState.errors.name
 
 	useEffect(() => {
-		register('name.ro', { required: true })
-		register('name.ru', { required: true })
-		register('name.en', { required: true })
+		register('name.ro', { validate: nameValidate })
+		register('name.ru', { validate: nameValidate })
+		register('name.en', { validate: nameValidate })
 	}, [register])
 
 	return (
@@ -33,7 +41,7 @@ export function LocalCallNameInput({ language, register, formState }: Props) {
 				key={`name-${language}`}
 				hasError={!!hasError}
 				placeholder={ADMIN_LOCAL_CALLS_TRANSLATE.nameInput[language].placeholder}
-				{...register(`name.${language}`, { required: true })}
+				{...register(`name.${language}`, { validate: nameValidate })}
 			/>
 			<ErrorMessage
 				errors={formState.errors}

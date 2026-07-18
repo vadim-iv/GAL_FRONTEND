@@ -15,7 +15,7 @@ export function useUpdateMember(id: string) {
 
 	const { mutate: updateMember, isPending: isUpdatePending } = useMutation({
 		mutationKey: ['update member'],
-		mutationFn: (data: Omit<TypeMemberFormState, 'email'>) => memberService.updateMember(id, data),
+		mutationFn: (data: TypeMemberFormState) => memberService.updateMember(id, data),
 		onSuccess: () => {
 			toast.success(t('member_updated'))
 		},

@@ -86,7 +86,7 @@ export function MemberFormModal({ initialRole, member, onClose }: Props) {
 		setImagesToUpload(prev => prev.filter(img => img.uploadUrl !== uploadUrl))
 	}, [])
 
-	const { register, control, handleSubmit, formState, setError } = useForm<TypeMemberFormState>({
+	const { register, control, handleSubmit, formState, unregister } = useForm<TypeMemberFormState>({
 		mode: 'onSubmit',
 		reValidateMode: 'onChange',
 		defaultValues: isEdit
@@ -110,6 +110,17 @@ export function MemberFormModal({ initialRole, member, onClose }: Props) {
 
 	const roles = useWatch({ control, name: 'roles' }) ?? []
 	const isPresident = roles.includes(MemberRolesEnum.PRESIDENT)
+
+	// details.*/imageUrl are useController-bound (via MemberPresidentBioInput /
+	// MemberImageUpload) and only rendered while isPresident — useController
+	// fields normally auto-unregister on unmount, but this explicit call is kept
+	// as a defensive backstop so unticking the president checkbox can never again
+	// leave a stale required-but-hidden field blocking submission.
+	useEffect(() => {
+		if (!isPresident) {
+			unregister(['details.ro', 'details.ru', 'details.en', 'imageUrl'])
+		}
+	}, [isPresident, unregister])
 
 	// Only invalidate the member/management caches once the whole chain (metadata +
 	// any pending image upload/delete) is truly done — invalidating earlier would
@@ -149,41 +160,25 @@ export function MemberFormModal({ initialRole, member, onClose }: Props) {
 		}
 	}
 
-	// RichTextEditor remounts (via `key`) on every language switch so it can rebind to
-	// the new field path — but useController-based fields unregister themselves on
-	// unmount (unlike plain register() fields), so a language tab that was visited
-	// and then abandoned silently drops out of RHF's tracked fields, along with its
-	// required rule. Registration state can't be trusted for cross-language
-	// completeness, so it's re-checked directly against live values here instead.
-	const isMultiLangComplete = (value?: { ro?: string; ru?: string; en?: string }) =>
-		!!value?.ro?.trim() && !!value?.ru?.trim() && !!value?.en?.trim()
-
+	// roles/name/shortDetails/details each carry their own `validate` rule
+	// (checked against live formValues, not just each field's own value) so RHF's
+	// own submit-time validation already catches every case correctly, including
+	// languages on tabs the admin never visited — shouldUnregister defaults to
+	// false, so unmounted tabs' values are still present in formValues. A manual
+	// setError(...) recheck here used to exist as a "belt and suspenders" — it was
+	// removed because it actively broke things: setError on a parent key like
+	// 'name' overwrites RHF's nested per-language error object with a flat manual
+	// one, and manual errors are never auto-cleared by child-field revalidation —
+	// only another setError/clearErrors call clears them. One incomplete submit
+	// could permanently stick a field red even after every language was filled in.
 	const onSubmit = (data: TypeMemberFormState) => {
-		let hasError = false
-
-		if (!data.roles || data.roles.length === 0) {
-			setError('roles', { type: 'manual' })
-			hasError = true
-		}
-		if (!isMultiLangComplete(data.name)) {
-			setError('name', { type: 'manual' })
-			hasError = true
-		}
-		if (!isMultiLangComplete(data.shortDetails)) {
-			setError('shortDetails', { type: 'manual' })
-			hasError = true
-		}
-		if (data.roles?.includes(MemberRolesEnum.PRESIDENT) && !isMultiLangComplete(data.details)) {
-			setError('details', { type: 'manual' })
-			hasError = true
-		}
-
-		if (hasError) {
-			toast.error(t('please_fill_in_all_required_fields_correctly'))
-			return
-		}
-
 		const payload: TypeMemberFormState = { ...data }
+
+		// Email is optional — a blank input submits as '', not undefined. Strip it
+		// entirely rather than sending an empty string, matching the "no email" state
+		// used everywhere else (sparse unique index, public-site formatting, account
+		// provisioning all key off the field being absent).
+		if (!payload.email) delete payload.email
 
 		if (!data.roles?.includes(MemberRolesEnum.PRESIDENT)) {
 			delete payload.details
@@ -193,7 +188,10 @@ export function MemberFormModal({ initialRole, member, onClose }: Props) {
 
 		if (isEdit) {
 			const updatePayload = { ...payload }
-			delete updatePayload.email
+			// Email is only ever editable while the member has none — once set, the
+			// field is locked, so there's nothing meaningful to send. Preserve it in
+			// the payload only when the admin just set it for the first time.
+			if (member?.email) delete updatePayload.email
 			updateMember(updatePayload, { onSuccess: afterMutationSuccess })
 		} else {
 			createMember(payload, { onSuccess: afterMutationSuccess })
@@ -252,14 +250,19 @@ export function MemberFormModal({ initialRole, member, onClose }: Props) {
 					className='flex flex-col gap-[1.5rem]'
 				>
 					<MemberRolesInput language={language} control={control} formState={formState} />
-					<MemberEmailInput language={language} register={register} formState={formState} disabled={isEdit} />
+					<MemberEmailInput
+					language={language}
+					register={register}
+					formState={formState}
+					disabled={isEdit && !!member?.email}
+				/>
 					<MemberNameInput language={language} register={register} formState={formState} />
 
 					{isPresident && (
-						<MemberPresidentBioInput language={language} register={register} control={control} formState={formState} />
+						<MemberPresidentBioInput language={language} control={control} formState={formState} />
 					)}
 
-					<MemberShortDetailsInput language={language} register={register} control={control} formState={formState} />
+					<MemberShortDetailsInput language={language} control={control} formState={formState} />
 
 					{isPresident && (
 						<MemberImageInput

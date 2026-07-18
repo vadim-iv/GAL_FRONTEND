@@ -163,7 +163,7 @@ export function DecisionImageUpload({
 					isImageLinkPending && 'opacity-50',
 					className
 				)}
-				style={{ height: hasImage ? '20rem' : height || '20rem' }}
+				style={{ height: hasImage ? '40rem' : height || '40rem' }}
 			>
 				<input
 					ref={fileInputRef}

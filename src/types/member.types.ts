@@ -3,6 +3,7 @@ import { IMultiLangText } from './shared/text.types'
 export enum MemberRolesEnum {
 	PRESIDENT = 'PRESIDENT',
 	EXECUTIVE_BODY = 'EXECUTIVE_BODY',
+	GENERAL_ASSEMBLY = 'GENERAL_ASSEMBLY',
 	ADMINISTRATION = 'ADMINISTRATION',
 	SELECTION_COMMITTEE = 'SELECTION_COMMITTEE',
 	CENSORSHIP_COMMITTEE = 'CENSORSHIP_COMMITTEE'
@@ -10,7 +11,7 @@ export enum MemberRolesEnum {
 
 export interface IMemberResponse {
 	_id: string
-	email: string
+	email?: string
 	name: IMultiLangText
 	// Long bio — only meaningful for the President's own dedicated public paragraph.
 	details?: IMultiLangText

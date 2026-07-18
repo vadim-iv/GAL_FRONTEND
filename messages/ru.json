@@ -467,7 +467,7 @@
 		"local_call_status_active": "Активен",
 		"local_call_status_ended": "Завершён",
 		"question_type_radio": "Один вариант",
-		"question_type_select": "Выбор из списка",
+		"question_type_checkbox": "Множественный выбор",
 		"question_type_text": "Свободный текст",
 		"no_blogs": "Статьи не найдены",
 		"no_blogs_message": "В данный момент нет статей для отображения.",
@@ -559,7 +559,7 @@
 			"decision_update_failed": "Произошла ошибка при обновлении решения.",
 			"decision_deleted": "Решение успешно удалено.",
 			"decision_deletion_failed": "Произошла ошибка при удалении решения.",
-			"decision_question_needs_options": "Вопросы с одним вариантом или выбором из списка требуют хотя бы один вариант ответа.",
+			"decision_question_needs_options": "Вопросы с одним вариантом или множественным выбором требуют хотя бы один вариант ответа.",
 			"decision_needs_at_least_one_question": "Решение должно содержать хотя бы один вопрос.",
 
 			"pdf_generation_failed": "Произошла ошибка при создании PDF-файла.",
@@ -606,8 +606,6 @@
 		"tabLocalCalls": "Местные вызовы",
 		"tabDecisions": "Решения",
 
-		"selectPlaceholder": "Выберите вариант",
-
 		"seeProjects": "Смотреть проекты",
 		"vote": "Голосовать",
 		"viewYourVote": "Посмотреть ваш голос",
@@ -627,7 +625,8 @@
 		"noProjects": "Проекты не найдены.",
 		"projects": "Проекты",
 		"seeDocumentation": "Смотреть документацию",
-		"alreadyVotedMessage": "Вы уже проголосовали — вот что вы отправили.",
+		"alreadyVotedMessage": "Вы уже проголосовали. Ниже вы можете увидеть отправленные ответы.",
+		"noImageAvailable": "Изображение пока не добавлено",
 		"submitVote": "Отправить голос",
 		"submitting": "Отправка...",
 		"answerAllQuestions": "Пожалуйста, ответьте на все вопросы перед отправкой.",

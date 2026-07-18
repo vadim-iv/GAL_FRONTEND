@@ -7,6 +7,8 @@ import { FormState, UseFormRegister } from 'react-hook-form'
 import { ADMIN_MEMBERS_TRANSLATE } from '@/constants/admin-members-translate.data'
 import { TypeMemberFormState } from '@/types/member.types'
 
+import { isMultiLangComplete } from '@/lib/multi-lang.utils'
+
 import { InputField } from '../../ui/InputField'
 
 interface Props {
@@ -15,13 +17,23 @@ interface Props {
 	formState: FormState<TypeMemberFormState>
 }
 
+// Unlike shortDetails/details, all 3 languages here are always registered
+// (not conditionally mounted per tab) — but the rule still validates ALL
+// THREE together, not just the field's own value, so e.g. a completed
+// Romanian tab still shows red while Russian/English are empty. This must
+// stay a `validate` rule (not `required`), and this component must remain
+// the only place these fields are registered — a duplicate manual
+// setError('name', ...) elsewhere would overwrite this nested per-language
+// error state with a flat one that revalidation can never clear again.
+const nameValidate = (_value: string, formValues: TypeMemberFormState) => isMultiLangComplete(formValues.name)
+
 export function MemberNameInput({ language, register, formState }: Props) {
 	const hasError = formState.errors.name
 
 	useEffect(() => {
-		register('name.ro', { required: true })
-		register('name.ru', { required: true })
-		register('name.en', { required: true })
+		register('name.ro', { validate: nameValidate })
+		register('name.ru', { validate: nameValidate })
+		register('name.en', { validate: nameValidate })
 	}, [register])
 
 	return (
@@ -32,7 +44,7 @@ export function MemberNameInput({ language, register, formState }: Props) {
 			<InputField
 				hasError={!!hasError}
 				placeholder={ADMIN_MEMBERS_TRANSLATE.nameInput[language].placeholder}
-				{...register(`name.${language}`, { required: true })}
+				{...register(`name.${language}`, { validate: nameValidate })}
 			/>
 			<ErrorMessage
 				errors={formState.errors}

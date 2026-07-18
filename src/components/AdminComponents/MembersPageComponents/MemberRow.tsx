@@ -44,7 +44,9 @@ export function MemberRow({
 				</div>
 			)}
 
-			<p className={`w-[14rem] shrink-0 ${CELL_CLASS}`}>{member.email}</p>
+			<p className={`w-[14rem] shrink-0 ${CELL_CLASS} ${!member.email ? 'text-gray-700' : ''}`}>
+				{member.email || ADMIN_MEMBERS_TRANSLATE.noEmailPlaceholder[language]}
+			</p>
 			<p className={`w-[10rem] shrink-0 ${CELL_CLASS}`}>{member.name[language]}</p>
 
 			<div className='w-[25rem] shrink-0 flex flex-wrap gap-[0.375rem]'>

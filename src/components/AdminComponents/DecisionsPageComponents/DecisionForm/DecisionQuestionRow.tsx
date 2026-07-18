@@ -8,6 +8,8 @@ import { Control, FormState, UseFormRegister, useFieldArray, useWatch } from 're
 import { ADMIN_DECISIONS_TRANSLATE } from '@/constants/admin-decisions-translate.data'
 import { DecisionQuestionType, TypeDecisionFormState } from '@/types/decision.types'
 
+import { isMultiLangComplete } from '@/lib/multi-lang.utils'
+
 import { InputField } from '../../ui/InputField'
 import { SelectBox } from '../../ui/SelectBox/SelectBox'
 
@@ -22,7 +24,7 @@ interface Props {
 
 const QUESTION_TYPE_LABEL_KEY: Record<DecisionQuestionType, string> = {
 	[DecisionQuestionType.RADIO]: 'question_type_radio',
-	[DecisionQuestionType.SELECT]: 'question_type_select',
+	[DecisionQuestionType.CHECKBOX]: 'question_type_checkbox',
 	[DecisionQuestionType.TEXT]: 'question_type_text'
 }
 
@@ -32,9 +34,14 @@ export function DecisionQuestionRow({ index, language, register, control, formSt
 	const tGeneric = useTranslations('Admin')
 
 	const questionType = useWatch({ control, name: `questions.${index}.type` })
+	// Watched (not read from formState.errors) so the red state always reflects the
+	// LIVE value — see the note above questionTextValidate for why formState.errors
+	// itself can go stale here.
+	const questionValue = useWatch({ control, name: `questions.${index}.question` })
+	const optionsValue = useWatch({ control, name: `questions.${index}.options` })
 
 	// The options array itself (not just each option's fields) needs its own
-	// validation — RADIO/SELECT questions must have at least one option, mirroring
+	// validation — RADIO/CHECKBOX questions must have at least one option, mirroring
 	// the backend's validateQuestions() check. This has to go through useFieldArray's
 	// own `rules` option, not a plain register() call on the same path — register()
 	// gets silently superseded by useFieldArray's internal tracking of that exact
@@ -52,7 +59,7 @@ export function DecisionQuestionRow({ index, language, register, control, formSt
 			validate: (value, formValues) => {
 				const currentType = formValues.questions?.[index]?.type
 				const needsOptions =
-					currentType === DecisionQuestionType.RADIO || currentType === DecisionQuestionType.SELECT
+					currentType === DecisionQuestionType.RADIO || currentType === DecisionQuestionType.CHECKBOX
 				if (needsOptions && (!value || value.length === 0)) {
 					return optionsT.error
 				}
@@ -61,21 +68,40 @@ export function DecisionQuestionRow({ index, language, register, control, formSt
 		}
 	})
 
+	// Validates ALL THREE languages together (not just the field's own value) so
+	// e.g. a completed Romanian tab still shows red while Russian/English are empty.
+	// This still correctly BLOCKS submission when incomplete (RHF revalidates every
+	// registered field fresh on every submit attempt) — but it does NOT drive the
+	// visual red state below. Each language is registered as its own separate path
+	// (.ro/.ru/.en), and RHF's onChange-triggered revalidation only re-runs the rule
+	// for whichever path just fired — never its siblings. So after typing Romanian,
+	// then Russian, then English, the Romanian and Russian entries in
+	// formState.errors never get a chance to re-check themselves against the now-
+	// complete data and can be left stuck red even though the actual values are all
+	// filled in. useWatch (above) doesn't have that staleness problem — it reflects
+	// the live value on every keystroke regardless of which tab is focused — so the
+	// visual hasError/error-message below is derived from that instead.
+	const questionTextValidate = (_value: string, formValues: TypeDecisionFormState) =>
+		isMultiLangComplete(formValues.questions?.[index]?.question)
+
 	useEffect(() => {
-		register(`questions.${index}.question.ro`, { required: true })
-		register(`questions.${index}.question.ru`, { required: true })
-		register(`questions.${index}.question.en`, { required: true })
+		register(`questions.${index}.question.ro`, { validate: questionTextValidate })
+		register(`questions.${index}.question.ru`, { validate: questionTextValidate })
+		register(`questions.${index}.question.en`, { validate: questionTextValidate })
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [register, index])
 
 	// Every current option's label (all 3 languages) needs to be registered up
 	// front, mirroring LocalCallQuestionsInput's established pattern — plain
-	// register() fields don't auto-attach "required" validation to a language the
-	// admin never visits, unlike useController-based fields.
+	// register() fields don't auto-attach validation to a language the admin
+	// never visits, unlike useController-based fields.
 	useEffect(() => {
 		optionFields.forEach((_, optIndex) => {
-			register(`questions.${index}.options.${optIndex}.label.ro`, { required: true })
-			register(`questions.${index}.options.${optIndex}.label.ru`, { required: true })
-			register(`questions.${index}.options.${optIndex}.label.en`, { required: true })
+			const optionLabelValidate = (_value: string, formValues: TypeDecisionFormState) =>
+				isMultiLangComplete(formValues.questions?.[index]?.options?.[optIndex]?.label)
+			register(`questions.${index}.options.${optIndex}.label.ro`, { validate: optionLabelValidate })
+			register(`questions.${index}.options.${optIndex}.label.ru`, { validate: optionLabelValidate })
+			register(`questions.${index}.options.${optIndex}.label.en`, { validate: optionLabelValidate })
 		})
 	}, [register, index, optionFields])
 
@@ -88,43 +114,52 @@ export function DecisionQuestionRow({ index, language, register, control, formSt
 		}
 	}, [questionType, optionFields.length, replaceOptions])
 
-	const showOptions = questionType === DecisionQuestionType.RADIO || questionType === DecisionQuestionType.SELECT
+	const showOptions = questionType === DecisionQuestionType.RADIO || questionType === DecisionQuestionType.CHECKBOX
 	// The field array's own rules.validate error lands on .root, not directly on
 	// .options — reading .options alone is truthy (it still has a .root inside) but
 	// .message is undefined, rendering an empty <p> (visible whitespace, no text).
 	const optionsError = formState.errors.questions?.[index]?.options?.root
+	const questionHasError = formState.isSubmitted && !isMultiLangComplete(questionValue)
 
 	return (
 		<div className='flex flex-col gap-[1rem] border border-gray-500 rounded-[1rem] p-[1rem]'>
-			<div className='flex items-end gap-[1rem]'>
-				<div className='flex-1 flex flex-col gap-[0.5rem]'>
-					<InputField
-						key={`question-${index}-${language}`}
-						hasError={!!formState.errors.questions?.[index]?.question}
-						placeholder={t.questionPlaceholder}
-						{...register(`questions.${index}.question.${language}`, { required: true })}
-					/>
+			<div className='flex flex-col gap-[0.5rem]'>
+				{/* The error text below deliberately sits OUTSIDE this items-end row, not
+				inside the input's own column — nesting it there would grow just that
+				column's height, and items-end re-anchors every column to the new (taller)
+				bottom, visibly shifting the type select / remove button down relative to
+				the input. */}
+				<div className='flex items-end gap-[1rem]'>
+					<div className='flex-1'>
+						<InputField
+							key={`question-${index}-${language}`}
+							hasError={questionHasError}
+							placeholder={t.questionPlaceholder}
+							{...register(`questions.${index}.question.${language}`, { validate: questionTextValidate })}
+						/>
+					</div>
+					<div className='w-[12rem] flex flex-col gap-[0.5rem]'>
+						<label className='text-[0.75rem] text-green-700'>{t.typeLabel}</label>
+						<SelectBox
+							options={Object.values(DecisionQuestionType).map(type => ({
+								value: type,
+								label: tGeneric(QUESTION_TYPE_LABEL_KEY[type])
+							}))}
+							// eslint-disable-next-line @typescript-eslint/no-explicit-any
+							name={`questions.${index}.type` as any}
+							control={control}
+							placeholder={t.typePlaceholder}
+							className='bg-gray-300'
+						/>
+					</div>
+					<p
+						onClick={onRemove}
+						className='text-[0.875rem] text-error cursor-pointer hover:opacity-70 transition-opacity duration-300 mb-[0.75rem]'
+					>
+						{t.removeLabel}
+					</p>
 				</div>
-				<div className='w-[12rem] flex flex-col gap-[0.5rem]'>
-					<label className='text-[0.75rem] text-green-700'>{t.typeLabel}</label>
-					<SelectBox
-						options={Object.values(DecisionQuestionType).map(type => ({
-							value: type,
-							label: tGeneric(QUESTION_TYPE_LABEL_KEY[type])
-						}))}
-						// eslint-disable-next-line @typescript-eslint/no-explicit-any
-						name={`questions.${index}.type` as any}
-						control={control}
-						placeholder={t.typePlaceholder}
-						className='bg-gray-300'
-					/>
-				</div>
-				<p
-					onClick={onRemove}
-					className='text-[0.875rem] text-error cursor-pointer hover:opacity-70 transition-opacity duration-300 mb-[0.75rem]'
-				>
-					{t.removeLabel}
-				</p>
+				{questionHasError && <p className='text-error text-sm'>{t.textError}</p>}
 			</div>
 
 			{showOptions && (
@@ -133,26 +168,38 @@ export function DecisionQuestionRow({ index, language, register, control, formSt
 				>
 					<label className='text-[0.75rem] text-green-700'>{optionsT.label}</label>
 
-					{optionFields.map((optionField, optIndex) => (
-						<div key={optionField.id} className='flex items-end gap-[0.75rem]'>
-							<div className='flex-1 flex flex-col gap-[0.25rem]'>
-								<InputField
-									key={`option-label-${optionField.id}-${language}`}
-									hasError={!!formState.errors.questions?.[index]?.options?.[optIndex]?.label}
-									placeholder={optionsT.labelPlaceholder}
-									{...register(`questions.${index}.options.${optIndex}.label.${language}`, {
-										required: true
-									})}
-								/>
+					{optionFields.map((optionField, optIndex) => {
+						const optionLabelValidate = (_value: string, formValues: TypeDecisionFormState) =>
+							isMultiLangComplete(formValues.questions?.[index]?.options?.[optIndex]?.label)
+						// Same staleness concern as questionHasError above — derived from the
+						// live watched array, not formState.errors.
+						const optionLabelHasError =
+							formState.isSubmitted && !isMultiLangComplete(optionsValue?.[optIndex]?.label)
+
+						return (
+							<div key={optionField.id} className='flex flex-col gap-[0.25rem]'>
+								<div className='flex items-end gap-[0.75rem]'>
+									<div className='flex-1'>
+										<InputField
+											key={`option-label-${optionField.id}-${language}`}
+											hasError={optionLabelHasError}
+											placeholder={optionsT.labelPlaceholder}
+											{...register(`questions.${index}.options.${optIndex}.label.${language}`, {
+												validate: optionLabelValidate
+											})}
+										/>
+									</div>
+									<p
+										onClick={() => removeOption(optIndex)}
+										className='text-[0.875rem] text-error cursor-pointer hover:opacity-70 transition-opacity duration-300 mb-[0.75rem]'
+									>
+										{optionsT.removeLabel}
+									</p>
+								</div>
+								{optionLabelHasError && <p className='text-error text-sm'>{optionsT.labelError}</p>}
 							</div>
-							<p
-								onClick={() => removeOption(optIndex)}
-								className='text-[0.875rem] text-error cursor-pointer hover:opacity-70 transition-opacity duration-300 mb-[0.75rem]'
-							>
-								{optionsT.removeLabel}
-							</p>
-						</div>
-					))}
+						)
+					})}
 
 					<button
 						type='button'

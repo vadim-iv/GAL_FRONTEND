@@ -18,6 +18,7 @@ import { hasVotedOnProject } from '@/lib/vote-answers.utils'
 import { Link } from '@/i18n/navigation'
 import { Pathnames } from '@/i18n/routing'
 
+import { ImageFallback } from './ImageFallback'
 import { VotedBadge } from './VotedBadge'
 
 interface Props {
@@ -46,7 +47,7 @@ export function VotableProjectCard({ project, localCallId, language }: Props) {
 						<StatusBadge status={project.status} />
 						{voted && <VotedBadge />}
 					</div>
-					{project.imageUrl && (
+					{project.imageUrl ? (
 						<Image
 							src={project.imageUrl}
 							alt='project image'
@@ -55,6 +56,8 @@ export function VotableProjectCard({ project, localCallId, language }: Props) {
 							className='object-cover w-full h-full'
 							draggable={false}
 						/>
+					) : (
+						<ImageFallback />
 					)}
 				</div>
 

@@ -54,17 +54,17 @@ export const ADMIN_LOCAL_CALLS_TRANSLATE = {
 		ro: {
 			label: 'Nume',
 			placeholder: 'Introduceți numele apelului local',
-			error: 'Numele este obligatoriu'
+			error: 'Numele este obligatoriu în toate cele 3 limbi'
 		},
 		en: {
 			label: 'Name',
 			placeholder: 'Enter the local call name',
-			error: 'Name is required'
+			error: 'The name is required in all 3 languages'
 		},
 		ru: {
 			label: 'Название',
 			placeholder: 'Введите название местного вызова',
-			error: 'Название обязательно'
+			error: 'Название должно быть заполнено на всех 3 языках'
 		}
 	},
 
@@ -72,17 +72,17 @@ export const ADMIN_LOCAL_CALLS_TRANSLATE = {
 		ro: {
 			label: 'Descriere',
 			placeholder: 'Introduceți descrierea',
-			error: 'Descrierea este obligatorie'
+			error: 'Descrierea este obligatorie în toate cele 3 limbi'
 		},
 		en: {
 			label: 'Description',
 			placeholder: 'Enter the description',
-			error: 'Description is required'
+			error: 'The description is required in all 3 languages'
 		},
 		ru: {
 			label: 'Описание',
 			placeholder: 'Введите описание',
-			error: 'Описание обязательно'
+			error: 'Описание должно быть заполнено на всех 3 языках'
 		}
 	},
 
@@ -119,7 +119,9 @@ export const ADMIN_LOCAL_CALLS_TRANSLATE = {
 			addButton: 'Adaugă întrebare',
 			questionPlaceholder: 'Introduceți întrebarea',
 			maxScoreLabel: 'Scor maxim',
-			error: 'Întrebarea este obligatorie',
+			error: 'Este necesară cel puțin o întrebare',
+			// Per-question text completeness (distinct from `error`).
+			textError: 'Întrebarea este obligatorie în toate cele 3 limbi',
 			removeLabel: 'Elimină'
 		},
 		en: {
@@ -127,7 +129,8 @@ export const ADMIN_LOCAL_CALLS_TRANSLATE = {
 			addButton: 'Add question',
 			questionPlaceholder: 'Enter the question',
 			maxScoreLabel: 'Max score',
-			error: 'Question is required',
+			error: 'At least one question is required',
+			textError: 'The question is required in all 3 languages',
 			removeLabel: 'Remove'
 		},
 		ru: {
@@ -135,7 +138,8 @@ export const ADMIN_LOCAL_CALLS_TRANSLATE = {
 			addButton: 'Добавить вопрос',
 			questionPlaceholder: 'Введите вопрос',
 			maxScoreLabel: 'Макс. балл',
-			error: 'Вопрос обязателен',
+			error: 'Требуется хотя бы один вопрос',
+			textError: 'Вопрос должен быть заполнен на всех 3 языках',
 			removeLabel: 'Удалить'
 		}
 	},

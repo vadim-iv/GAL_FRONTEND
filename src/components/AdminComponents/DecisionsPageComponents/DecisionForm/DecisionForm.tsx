@@ -59,7 +59,7 @@ export function DecisionForm({
 			{isEditMode && <DecisionStatusInput language={language} control={control} />}
 
 			<DecisionTitleInput language={language} register={register} formState={formState} />
-			<DecisionDescriptionInput language={language} register={register} control={control} formState={formState} />
+			<DecisionDescriptionInput language={language} control={control} formState={formState} />
 			<DecisionImageInput
 				language={language}
 				control={control}

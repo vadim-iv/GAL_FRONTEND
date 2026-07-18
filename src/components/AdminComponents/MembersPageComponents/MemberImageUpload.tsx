@@ -24,7 +24,6 @@ interface MemberImageUploadProps {
 	control: Control<TypeMemberFormState>
 	rules?: RegisterOptions
 	className?: string
-	height?: string
 	language: 'ro' | 'en' | 'ru'
 
 	addImageToUpload?: (imageUrl: ImageToUpload) => void
@@ -34,10 +33,11 @@ interface MemberImageUploadProps {
 
 // Mirrors src/components/AdminComponents/ui/ImageUpload/ImageUpload.tsx but hits the
 // members module's own generate-upload-link/delete-files endpoints (S3 'MEMBERS/' prefix)
-// instead of the shared component's hardwired blogs endpoints.
+// instead of the shared component's hardwired blogs endpoints. Only used for the
+// president's photo (the only role with an image field), so it's kept square
+// (aspect-square) to match how it's actually rendered on the public site.
 export function MemberImageUpload({
 	name,
-	height,
 	language,
 	control,
 	rules,
@@ -153,14 +153,11 @@ export function MemberImageUpload({
 	return (
 		<div
 			className={cn(
-				'w-full hover:opacity-80 relative rounded-[1rem] transition-all duration-300 bg-gray-400 border border-dashed border-gray-500 overflow-hidden flex flex-col items-center justify-center',
+				'w-full aspect-square max-w-[20rem] hover:opacity-80 relative rounded-[1rem] transition-all duration-300 bg-gray-400 border border-dashed border-gray-500 overflow-hidden flex flex-col items-center justify-center',
 				hasError && 'border-error',
 				isImageLinkPending && 'opacity-50',
 				className
 			)}
-			style={{
-				height: hasImage ? '20rem' : height || '20rem'
-			}}
 		>
 			<input
 				ref={fileInputRef}

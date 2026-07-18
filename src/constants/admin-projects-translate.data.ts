@@ -67,17 +67,17 @@ export const ADMIN_PROJECTS_TRANSLATE = {
 		ro: {
 			label: 'Titlu',
 			placeholder: 'Introduceți titlul proiectului',
-			error: 'Titlul este obligatoriu'
+			error: 'Titlul este obligatoriu în toate cele 3 limbi'
 		},
 		en: {
 			label: 'Title',
 			placeholder: 'Enter the project title',
-			error: 'Title is required'
+			error: 'The title is required in all 3 languages'
 		},
 		ru: {
 			label: 'Название',
 			placeholder: 'Введите название проекта',
-			error: 'Название обязательно'
+			error: 'Название должно быть заполнено на всех 3 языках'
 		}
 	},
 
@@ -85,17 +85,17 @@ export const ADMIN_PROJECTS_TRANSLATE = {
 		ro: {
 			label: 'Descriere',
 			placeholder: 'Introduceți descrierea',
-			error: 'Descrierea este obligatorie'
+			error: 'Descrierea este obligatorie în toate cele 3 limbi'
 		},
 		en: {
 			label: 'Description',
 			placeholder: 'Enter the description',
-			error: 'Description is required'
+			error: 'The description is required in all 3 languages'
 		},
 		ru: {
 			label: 'Описание',
 			placeholder: 'Введите описание',
-			error: 'Описание обязательно'
+			error: 'Описание должно быть заполнено на всех 3 языках'
 		}
 	},
 

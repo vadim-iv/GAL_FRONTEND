@@ -479,7 +479,7 @@
 		"local_call_status_active": "Active",
 		"local_call_status_ended": "Ended",
 		"question_type_radio": "Single choice",
-		"question_type_select": "Dropdown choice",
+		"question_type_checkbox": "Multiple choice",
 		"question_type_text": "Free text",
 		"no_blogs": "No blogs found",
 		"no_blogs_message": "There are no blogs to display at the moment.",
@@ -571,7 +571,7 @@
 			"decision_update_failed": "An error occurred while updating the decision.",
 			"decision_deleted": "Decision deleted successfully.",
 			"decision_deletion_failed": "An error occurred while deleting the decision.",
-			"decision_question_needs_options": "Single choice and dropdown choice questions need at least one answer option.",
+			"decision_question_needs_options": "Single choice and multiple choice questions need at least one answer option.",
 			"decision_needs_at_least_one_question": "The decision must have at least one question.",
 
 			"pdf_generation_failed": "An error occurred while generating the PDF.",
@@ -618,8 +618,6 @@
 		"tabLocalCalls": "Local Calls",
 		"tabDecisions": "Decisions",
 
-		"selectPlaceholder": "Select an option",
-
 		"seeProjects": "See projects",
 		"vote": "Vote",
 		"viewYourVote": "View your vote",
@@ -639,7 +637,8 @@
 		"noProjects": "No projects found.",
 		"projects": "Projects",
 		"seeDocumentation": "See documentation",
-		"alreadyVotedMessage": "You've already voted — here's what you submitted.",
+		"alreadyVotedMessage": "You have already voted. You can see your submitted answers below.",
+		"noImageAvailable": "No image added yet",
 		"submitVote": "Submit vote",
 		"submitting": "Submitting...",
 		"answerAllQuestions": "Please answer all questions before submitting.",

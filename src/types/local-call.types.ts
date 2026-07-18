@@ -11,7 +11,9 @@ export interface ILocalCallQuestion {
 
 export interface IProjectAnswer {
 	questionId: string
-	memberId: string | { _id: string; name: IMultiLangText; email: string }
+	// null when the member who cast this vote was later deleted — the populated
+	// reference has nothing left to resolve to.
+	memberId: string | { _id: string; name: IMultiLangText; email: string } | null
 	answer: number
 }
 

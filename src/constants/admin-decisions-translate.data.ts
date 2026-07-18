@@ -66,17 +66,17 @@ export const ADMIN_DECISIONS_TRANSLATE = {
 		ro: {
 			label: 'Titlu',
 			placeholder: 'Introduceți titlul deciziei',
-			error: 'Titlul este obligatoriu'
+			error: 'Titlul este obligatoriu în toate cele 3 limbi'
 		},
 		en: {
 			label: 'Title',
 			placeholder: 'Enter the decision title',
-			error: 'Title is required'
+			error: 'The title is required in all 3 languages'
 		},
 		ru: {
 			label: 'Название',
 			placeholder: 'Введите название решения',
-			error: 'Название обязательно'
+			error: 'Название должно быть заполнено на всех 3 языках'
 		}
 	},
 
@@ -84,17 +84,17 @@ export const ADMIN_DECISIONS_TRANSLATE = {
 		ro: {
 			label: 'Descriere',
 			placeholder: 'Introduceți descrierea',
-			error: 'Descrierea este obligatorie'
+			error: 'Descrierea este obligatorie în toate cele 3 limbi'
 		},
 		en: {
 			label: 'Description',
 			placeholder: 'Enter the description',
-			error: 'Description is required'
+			error: 'The description is required in all 3 languages'
 		},
 		ru: {
 			label: 'Описание',
 			placeholder: 'Введите описание',
-			error: 'Описание обязательно'
+			error: 'Описание должно быть заполнено на всех 3 языках'
 		}
 	},
 
@@ -150,7 +150,10 @@ export const ADMIN_DECISIONS_TRANSLATE = {
 			questionPlaceholder: 'Introduceți întrebarea',
 			typeLabel: 'Tip întrebare',
 			typePlaceholder: 'Selectați tipul întrebării',
-			error: 'Întrebarea este obligatorie',
+			error: 'Este necesară cel puțin o întrebare',
+			// Per-question text completeness (distinct from `error`, the "add at least one
+			// question" array-level message).
+			textError: 'Întrebarea este obligatorie în toate cele 3 limbi',
 			removeLabel: 'Elimină'
 		},
 		en: {
@@ -159,7 +162,8 @@ export const ADMIN_DECISIONS_TRANSLATE = {
 			questionPlaceholder: 'Enter the question',
 			typeLabel: 'Question type',
 			typePlaceholder: 'Select the question type',
-			error: 'Question is required',
+			error: 'At least one question is required',
+			textError: 'The question is required in all 3 languages',
 			removeLabel: 'Remove'
 		},
 		ru: {
@@ -168,7 +172,8 @@ export const ADMIN_DECISIONS_TRANSLATE = {
 			questionPlaceholder: 'Введите вопрос',
 			typeLabel: 'Тип вопроса',
 			typePlaceholder: 'Выберите тип вопроса',
-			error: 'Вопрос обязателен',
+			error: 'Требуется хотя бы один вопрос',
+			textError: 'Вопрос должен быть заполнен на всех 3 языках',
 			removeLabel: 'Удалить'
 		}
 	},
@@ -179,21 +184,26 @@ export const ADMIN_DECISIONS_TRANSLATE = {
 			addButton: 'Adaugă opțiune',
 			labelPlaceholder: 'Textul opțiunii',
 			removeLabel: 'Elimină',
-			error: 'Este necesară cel puțin o opțiune'
+			error: 'Este necesară cel puțin o opțiune',
+			// Per-option label completeness (distinct from `error`, the "add at least one
+			// option" array-level message).
+			labelError: 'Textul opțiunii este obligatoriu în toate cele 3 limbi'
 		},
 		en: {
 			label: 'Answer options',
 			addButton: 'Add option',
 			labelPlaceholder: 'Option text',
 			removeLabel: 'Remove',
-			error: 'At least one option is required'
+			error: 'At least one option is required',
+			labelError: 'The option text is required in all 3 languages'
 		},
 		ru: {
 			label: 'Варианты ответа',
 			addButton: 'Добавить вариант',
 			labelPlaceholder: 'Текст варианта',
 			removeLabel: 'Удалить',
-			error: 'Требуется хотя бы один вариант'
+			error: 'Требуется хотя бы один вариант',
+			labelError: 'Текст варианта должен быть заполнен на всех 3 языках'
 		}
 	}
 }

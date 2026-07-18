@@ -12,7 +12,7 @@ import { useCurrentMember } from '@/hooks/platform/useCurrentMember'
 import { useGetLocalCallById } from '@/hooks/local-call/useGetLocalCallById'
 import { useSubmitProjectVote } from '@/hooks/platform/useSubmitProjectVote'
 
-import { hasVotedOnProject } from '@/lib/vote-answers.utils'
+import { answerMemberId, hasVotedOnProject } from '@/lib/vote-answers.utils'
 import { getVoteWindowState } from '@/lib/vote-window.utils'
 
 import { ScoreQuestionCard } from './ScoreQuestionCard'
@@ -51,10 +51,7 @@ export function ProjectScoreForm({ localCallId, projectId }: Props) {
 	const canVote = voteWindowState === 'active' && !voted
 
 	const getSubmittedScore = (questionId: string) => {
-		const answer = project.answers.find(a => {
-			const memberId = typeof a.memberId === 'string' ? a.memberId : a.memberId._id
-			return a.questionId === questionId && memberId === member._id
-		})
+		const answer = project.answers.find(a => a.questionId === questionId && answerMemberId(a.memberId) === member._id)
 		return answer?.answer ?? null
 	}
 
@@ -94,10 +91,8 @@ export function ProjectScoreForm({ localCallId, projectId }: Props) {
 						{t('seeDocumentation')}
 					</a>
 				)}
-				<VoteWindowBanner voteStart={localCall.voteStart} voteEnd={localCall.voteEnd} />
+				<VoteWindowBanner voteStart={localCall.voteStart} voteEnd={localCall.voteEnd} voted={voted} />
 			</div>
-
-			{voted && <p className='text-green-700 text-[0.875rem] text-center'>{t('alreadyVotedMessage')}</p>}
 
 			{localCall.questions.map(question => (
 				<ScoreQuestionCard

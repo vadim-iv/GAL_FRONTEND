@@ -30,7 +30,6 @@ export function MemberEmailInput({ language, register, formState, disabled }: Pr
 				placeholder={ADMIN_MEMBERS_TRANSLATE.emailInput[language].placeholder}
 				className={disabled ? 'opacity-60 cursor-not-allowed' : ''}
 				{...register('email', {
-					required: true,
 					pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 				})}
 			/>

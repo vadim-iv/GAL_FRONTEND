@@ -486,7 +486,7 @@
 		"local_call_status_active": "Activ",
 		"local_call_status_ended": "Încheiat",
 		"question_type_radio": "Alegere unică",
-		"question_type_select": "Alegere din listă",
+		"question_type_checkbox": "Alegere multiplă",
 		"question_type_text": "Text liber",
 		"no_blogs": "Niciun articol găsit",
 		"no_blogs_message": "Nu există articole de afișat momentan.",
@@ -577,7 +577,7 @@
 			"decision_update_failed": "A apărut o eroare la actualizarea deciziei.",
 			"decision_deleted": "Decizia a fost ștearsă cu succes.",
 			"decision_deletion_failed": "A apărut o eroare la ștergerea deciziei.",
-			"decision_question_needs_options": "Întrebările cu alegere unică sau din listă necesită cel puțin o opțiune de răspuns.",
+			"decision_question_needs_options": "Întrebările cu alegere unică sau multiplă necesită cel puțin o opțiune de răspuns.",
 			"decision_needs_at_least_one_question": "Decizia trebuie să aibă cel puțin o întrebare.",
 
 			"pdf_generation_failed": "A apărut o eroare la generarea PDF-ului.",
@@ -624,8 +624,6 @@
 		"tabLocalCalls": "Apeluri locale",
 		"tabDecisions": "Decizii",
 
-		"selectPlaceholder": "Selectează o opțiune",
-
 		"seeProjects": "Vezi proiectele",
 		"vote": "Votează",
 		"viewYourVote": "Vezi votul tău",
@@ -645,7 +643,8 @@
 		"noProjects": "Niciun proiect găsit.",
 		"projects": "Proiecte",
 		"seeDocumentation": "Vezi documentația",
-		"alreadyVotedMessage": "Ai votat deja — iată ce ai trimis.",
+		"alreadyVotedMessage": "Ați votat deja. Mai jos puteți vedea răspunsurile transmise.",
+		"noImageAvailable": "Nicio imagine adăugată momentan",
 		"submitVote": "Trimite votul",
 		"submitting": "Se trimite...",
 		"answerAllQuestions": "Te rugăm să răspunzi la toate întrebările înainte de a trimite.",

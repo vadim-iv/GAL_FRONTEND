@@ -12,7 +12,10 @@ import { useGetDecisionById } from '@/hooks/decision/useGetDecisionById'
 import { useCurrentMember } from '@/hooks/platform/useCurrentMember'
 import { useSubmitDecisionVote } from '@/hooks/platform/useSubmitDecisionVote'
 
-import { hasVotedOnDecision } from '@/lib/vote-answers.utils'
+import { DecisionQuestionType } from '@/types/decision.types'
+import { IDecisionVoteAnswer } from '@/types/voting.types'
+
+import { answerMemberId, hasVotedOnDecision } from '@/lib/vote-answers.utils'
 import { getVoteWindowState } from '@/lib/vote-window.utils'
 
 import { DecisionQuestionCard } from './DecisionQuestionCard'
@@ -29,7 +32,7 @@ export function DecisionVoteForm({ decisionId }: Props) {
 	const { decision, isLoading } = useGetDecisionById(decisionId)
 	const { submitDecisionVote, isSubmitPending } = useSubmitDecisionVote(decisionId)
 
-	const [answers, setAnswers] = useState<Record<string, string>>({})
+	const [answers, setAnswers] = useState<Record<string, string | string[]>>({})
 
 	if (isLoading || !member) {
 		return <p className='text-green-700 text-center mt-[3rem]'>{t('loading')}</p>
@@ -43,23 +46,27 @@ export function DecisionVoteForm({ decisionId }: Props) {
 	const voteWindowState = getVoteWindowState(decision.voteStart, decision.voteEnd)
 	const canVote = voteWindowState === 'active' && !voted
 
-	const getSubmittedAnswer = (questionId: string) => {
+	const getSubmittedAnswer = (questionId: string): string | string[] => {
 		const question = decision.questions.find(q => q._id === questionId)
-		const answer = question?.answers.find(a => {
-			const memberId = typeof a.memberId === 'string' ? a.memberId : a.memberId._id
-			return memberId === member._id
-		})
+		const answer = question?.answers.find(a => answerMemberId(a.memberId) === member._id)
+		if (question?.type === DecisionQuestionType.CHECKBOX) return answer?.values ?? []
 		return answer?.value ?? ''
 	}
 
 	const handleSubmit = () => {
-		const payloadAnswers = decision.questions.map(question => ({
-			questionId: question._id,
-			value: answers[question._id],
-			memberId: member._id
-		}))
+		const payloadAnswers: IDecisionVoteAnswer[] = decision.questions.map(question => {
+			const answer = answers[question._id]
+			if (question.type === DecisionQuestionType.CHECKBOX) {
+				return { questionId: question._id, values: Array.isArray(answer) ? answer : [], memberId: member._id }
+			}
+			return { questionId: question._id, value: typeof answer === 'string' ? answer : '', memberId: member._id }
+		})
 
-		if (payloadAnswers.some(a => !a.value || a.value.trim().length === 0)) {
+		const isIncomplete = payloadAnswers.some(a =>
+			a.values ? a.values.length === 0 : !a.value || a.value.trim().length === 0
+		)
+
+		if (isIncomplete) {
 			toast.error(t('answerAllQuestions'))
 			return
 		}
@@ -78,24 +85,25 @@ export function DecisionVoteForm({ decisionId }: Props) {
 					className='text-green-700 text-[1rem] leading-[1.5rem]'
 					dangerouslySetInnerHTML={{ __html: decision.description[locale] }}
 				/>
-				<VoteWindowBanner voteStart={decision.voteStart} voteEnd={decision.voteEnd} />
+				<VoteWindowBanner voteStart={decision.voteStart} voteEnd={decision.voteEnd} voted={voted} />
 			</div>
 
-			{voted && <p className='text-green-700 text-[0.875rem] text-center'>{t('alreadyVotedMessage')}</p>}
-
-			{decision.questions.map(question => (
-				<DecisionQuestionCard
-					key={question._id}
-					questionId={question._id}
-					question={question.question[locale]}
-					type={question.type}
-					options={question.options}
-					language={locale}
-					value={voted ? getSubmittedAnswer(question._id) : (answers[question._id] ?? '')}
-					disabled={!canVote}
-					onChange={value => setAnswers(prev => ({ ...prev, [question._id]: value }))}
-				/>
-			))}
+			{decision.questions.map(question => {
+				const emptyValue = question.type === DecisionQuestionType.CHECKBOX ? [] : ''
+				return (
+					<DecisionQuestionCard
+						key={question._id}
+						questionId={question._id}
+						question={question.question[locale]}
+						type={question.type}
+						options={question.options}
+						language={locale}
+						value={voted ? getSubmittedAnswer(question._id) : (answers[question._id] ?? emptyValue)}
+						disabled={!canVote}
+						onChange={value => setAnswers(prev => ({ ...prev, [question._id]: value }))}
+					/>
+				)
+			})}
 
 			{canVote && (
 				<Button

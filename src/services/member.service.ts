@@ -15,7 +15,7 @@ class MemberService {
 		return response
 	}
 
-	async updateMember(id: string, data: Omit<TypeMemberFormState, 'email'>) {
+	async updateMember(id: string, data: TypeMemberFormState) {
 		const response = await axiosWithAuth.put<IMemberResponse>(`${this.BASE_URL}/${id}`, data)
 		return response
 	}

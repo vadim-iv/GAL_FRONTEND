@@ -6,7 +6,6 @@ import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { StatisticsNav as ManagementNav } from '@/components/AdminComponents/StatisticsPageComponents/StatisticsNav'
-import { GeneralAssemblySection } from '@/components/AdminComponents/MembersPageComponents/GeneralAssemblySection'
 import { MainImageFields } from '@/components/AdminComponents/MembersPageComponents/MainImageFields'
 import { MemberListSection } from '@/components/AdminComponents/MembersPageComponents/MemberListSection'
 import { PresidentSection } from '@/components/AdminComponents/MembersPageComponents/PresidentSection'
@@ -135,6 +134,14 @@ export function PageContent() {
 				/>
 
 				<MemberListSection
+					role={MemberRolesEnum.GENERAL_ASSEMBLY}
+					title={ADMIN_MEMBERS_TRANSLATE.sectionTitles.generalAssembly[language]}
+					addLabel={ADMIN_MEMBERS_TRANSLATE.addButtonLabel.generalAssembly[language]}
+					members={allMembers}
+					language={language}
+				/>
+
+				<MemberListSection
 					role={MemberRolesEnum.ADMINISTRATION}
 					title={ADMIN_MEMBERS_TRANSLATE.sectionTitles.administration[language]}
 					addLabel={ADMIN_MEMBERS_TRANSLATE.addButtonLabel.administration[language]}
@@ -157,8 +164,6 @@ export function PageContent() {
 					members={allMembers}
 					language={language}
 				/>
-
-				<GeneralAssemblySection members={allMembers} language={language} />
 			</form>
 		</div>
 	)

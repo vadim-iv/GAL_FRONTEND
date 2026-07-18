@@ -14,6 +14,7 @@ interface Props {
 export const ROLE_TITLE_KEY: Record<MemberRolesEnum, keyof typeof ADMIN_MEMBERS_TRANSLATE.roleTagLabel> = {
 	[MemberRolesEnum.PRESIDENT]: 'president',
 	[MemberRolesEnum.EXECUTIVE_BODY]: 'executive',
+	[MemberRolesEnum.GENERAL_ASSEMBLY]: 'generalAssembly',
 	[MemberRolesEnum.ADMINISTRATION]: 'administration',
 	[MemberRolesEnum.SELECTION_COMMITTEE]: 'committee',
 	[MemberRolesEnum.CENSORSHIP_COMMITTEE]: 'censorship'
@@ -21,10 +22,13 @@ export const ROLE_TITLE_KEY: Record<MemberRolesEnum, keyof typeof ADMIN_MEMBERS_
 
 // Same forest-green palette already used for the category tags on the public
 // /administration page (src/components/CommonComponents/InfoSection.tsx) — one
-// distinct shade per role instead of a single flat color.
+// distinct shade per role instead of a single flat color. Key order here doesn't
+// drive rendering (ALL_ROLES below iterates the enum, not this map), so
+// GENERAL_ASSEMBLY's forest-400 sitting between 800 and 700 is harmless.
 export const ROLE_COLOR: Record<MemberRolesEnum, string> = {
 	[MemberRolesEnum.PRESIDENT]: 'bg-forest-900',
 	[MemberRolesEnum.EXECUTIVE_BODY]: 'bg-forest-800',
+	[MemberRolesEnum.GENERAL_ASSEMBLY]: 'bg-forest-400',
 	[MemberRolesEnum.ADMINISTRATION]: 'bg-forest-700',
 	[MemberRolesEnum.SELECTION_COMMITTEE]: 'bg-forest-600',
 	[MemberRolesEnum.CENSORSHIP_COMMITTEE]: 'bg-forest-500'
@@ -38,7 +42,8 @@ export function MemberRolesInput({ language, control, formState }: Props) {
 	} = useController({
 		name: 'roles',
 		control,
-		defaultValue: []
+		defaultValue: [],
+		rules: { validate: (v?: MemberRolesEnum[]) => Array.isArray(v) && v.length > 0 }
 	})
 
 	const roles = value ?? []
