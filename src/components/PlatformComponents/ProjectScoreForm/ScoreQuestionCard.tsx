@@ -14,7 +14,10 @@ export function ScoreQuestionCard({ question, maxScore, value, onChange, disable
 
 	return (
 		<div className='bg-white rounded-[1rem] border border-gray-500 p-[1.5rem] flex flex-col gap-[1rem]'>
-			<p className='text-green-700 text-[1rem] font-[500]'>{question}</p>
+			<div
+				className='text-green-700 text-[1rem] font-[500]'
+				dangerouslySetInnerHTML={{ __html: question }}
+			/>
 			<div className='flex flex-wrap gap-[0.5rem]'>
 				{scores.map(score => (
 					<button

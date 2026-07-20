@@ -10,7 +10,7 @@ import { MemberEnumTokens } from './services/members-auth-token.service'
 // Create the next-intl middleware
 const intlMiddleware = createMiddleware(routing)
 
-// Redirect targets built as bare paths (e.g. "/voting/login") lose whatever
+// Redirect targets built as bare paths (e.g. "/votare/login") lose whatever
 // locale was in the original URL — next-intl then treats them as unprefixed
 // and falls back to the default locale ("ro"), regardless of what the user
 // had selected. Preserve it explicitly on every redirect instead.
@@ -52,9 +52,9 @@ export default async function middleware(request: NextRequest) {
 	const memberAccessToken = cookies.get(MemberEnumTokens.ACCESS_TOKEN)?.value
 
 	const isMemberPublicPage =
-		url.includes('/voting/login') || url.includes('/voting/forgot-password') || url.includes('/voting/reset-password')
-	const isMemberLoginPage = url.includes('/voting/login')
-	const isPlatformPage = url.includes('/voting') && !isMemberPublicPage
+		url.includes('/votare/login') || url.includes('/votare/forgot-password') || url.includes('/votare/reset-password')
+	const isMemberLoginPage = url.includes('/votare/login')
+	const isPlatformPage = url.includes('/votare') && !isMemberPublicPage
 
 	if (isMemberLoginPage && memberAccessToken) {
 		return NextResponse.redirect(new URL(`/${locale}${PLATFORM_PAGES.LOCAL_CALLS}`, url))

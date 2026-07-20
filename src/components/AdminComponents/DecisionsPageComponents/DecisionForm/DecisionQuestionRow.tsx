@@ -11,6 +11,7 @@ import { DecisionQuestionType, TypeDecisionFormState } from '@/types/decision.ty
 import { isMultiLangComplete } from '@/lib/multi-lang.utils'
 
 import { InputField } from '../../ui/InputField'
+import { RichTextEditor } from '../../ui/RichTextEditor/RichTextEditor'
 import { SelectBox } from '../../ui/SelectBox/SelectBox'
 
 interface Props {
@@ -81,15 +82,13 @@ export function DecisionQuestionRow({ index, language, register, control, formSt
 	// filled in. useWatch (above) doesn't have that staleness problem — it reflects
 	// the live value on every keystroke regardless of which tab is focused — so the
 	// visual hasError/error-message below is derived from that instead.
+	// Attached via RichTextEditor's own `rules` prop below (forwarded to
+	// useController) — do NOT also register() this field path manually. Mixing
+	// register() and useController on the same name is a real RHF conflict: the
+	// manual registration can clobber the controller-tracked value, so the field
+	// can look filled in the UI yet still fail validation on submit.
 	const questionTextValidate = (_value: string, formValues: TypeDecisionFormState) =>
 		isMultiLangComplete(formValues.questions?.[index]?.question)
-
-	useEffect(() => {
-		register(`questions.${index}.question.ro`, { validate: questionTextValidate })
-		register(`questions.${index}.question.ru`, { validate: questionTextValidate })
-		register(`questions.${index}.question.en`, { validate: questionTextValidate })
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [register, index])
 
 	// Every current option's label (all 3 languages) needs to be registered up
 	// front, mirroring LocalCallQuestionsInput's established pattern — plain
@@ -124,42 +123,40 @@ export function DecisionQuestionRow({ index, language, register, control, formSt
 	return (
 		<div className='flex flex-col gap-[1rem] border border-gray-500 rounded-[1rem] p-[1rem]'>
 			<div className='flex flex-col gap-[0.5rem]'>
-				{/* The error text below deliberately sits OUTSIDE this items-end row, not
-				inside the input's own column — nesting it there would grow just that
-				column's height, and items-end re-anchors every column to the new (taller)
-				bottom, visibly shifting the type select / remove button down relative to
-				the input. */}
-				<div className='flex items-end gap-[1rem]'>
+				<div className='flex items-start gap-[1rem]'>
 					<div className='flex-1'>
-						<InputField
+						<RichTextEditor
 							key={`question-${index}-${language}`}
-							hasError={questionHasError}
-							placeholder={t.questionPlaceholder}
-							{...register(`questions.${index}.question.${language}`, { validate: questionTextValidate })}
-						/>
-					</div>
-					<div className='w-[12rem] flex flex-col gap-[0.5rem]'>
-						<label className='text-[0.75rem] text-green-700'>{t.typeLabel}</label>
-						<SelectBox
-							options={Object.values(DecisionQuestionType).map(type => ({
-								value: type,
-								label: tGeneric(QUESTION_TYPE_LABEL_KEY[type])
-							}))}
-							// eslint-disable-next-line @typescript-eslint/no-explicit-any
-							name={`questions.${index}.type` as any}
 							control={control}
-							placeholder={t.typePlaceholder}
-							className='bg-gray-300'
+							name={`questions.${index}.question.${language}`}
+							placeholder={t.questionPlaceholder}
+							rules={{ validate: questionTextValidate }}
+							className={`h-[8rem] ${questionHasError ? 'border-error text-error placeholder:text-error animate-shake' : ''}`}
 						/>
 					</div>
 					<p
 						onClick={onRemove}
-						className='text-[0.875rem] text-error cursor-pointer hover:opacity-70 transition-opacity duration-300 mb-[0.75rem]'
+						className='mt-[0.625rem] text-[0.875rem] text-error cursor-pointer hover:opacity-70 transition-opacity duration-300'
 					>
 						{t.removeLabel}
 					</p>
 				</div>
 				{questionHasError && <p className='text-error text-sm'>{t.textError}</p>}
+
+				<div className='w-[12rem] flex flex-col gap-[0.5rem]'>
+					<label className='text-[0.75rem] text-green-700'>{t.typeLabel}</label>
+					<SelectBox
+						options={Object.values(DecisionQuestionType).map(type => ({
+							value: type,
+							label: tGeneric(QUESTION_TYPE_LABEL_KEY[type])
+						}))}
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+						name={`questions.${index}.type` as any}
+						control={control}
+						placeholder={t.typePlaceholder}
+						className='bg-gray-300'
+					/>
+				</div>
 			</div>
 
 			{showOptions && (

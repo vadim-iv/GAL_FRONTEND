@@ -1,5 +1,5 @@
 class PLATFORM {
-	private root = '/voting'
+	private root = '/votare'
 
 	LOGIN = `${this.root}/login`
 	FORGOT_PASSWORD = `${this.root}/forgot-password`

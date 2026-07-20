@@ -25,7 +25,10 @@ export function DecisionQuestionCard({
 }: Props) {
 	return (
 		<div className='bg-white rounded-[1rem] border border-gray-500 p-[1.5rem] flex flex-col gap-[1rem]'>
-			<p className='text-green-700 text-[1rem] font-[500]'>{question}</p>
+			<div
+				className='text-green-700 text-[1rem] font-[500]'
+				dangerouslySetInnerHTML={{ __html: question }}
+			/>
 
 			{type === DecisionQuestionType.RADIO && (
 				<div className='flex flex-col gap-[0.75rem]'>

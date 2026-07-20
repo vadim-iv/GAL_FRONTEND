@@ -57,6 +57,7 @@ export function MemberFormModal({ initialRole, member, onClose }: Props) {
 	const [imagesToUpload, setImagesToUpload] = useState<ImageToUpload[]>([])
 	const [imagesToDelete, setImagesToDelete] = useState<string[]>([])
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+	const [pendingUpdatePayload, setPendingUpdatePayload] = useState<TypeMemberFormState | null>(null)
 
 	const { uploadImages, isImagesUploadPending } = useUploadMemberImages()
 	const { deleteImages, isDeletePending: isImagesDeletePending } = useDeleteMemberImages()
@@ -174,11 +175,11 @@ export function MemberFormModal({ initialRole, member, onClose }: Props) {
 	const onSubmit = (data: TypeMemberFormState) => {
 		const payload: TypeMemberFormState = { ...data }
 
-		// Email is optional — a blank input submits as '', not undefined. Strip it
-		// entirely rather than sending an empty string, matching the "no email" state
-		// used everywhere else (sparse unique index, public-site formatting, account
-		// provisioning all key off the field being absent).
-		if (!payload.email) delete payload.email
+		// Only the CREATE path omits a blank email entirely, matching create()'s
+		// "no email = no account" contract. On EDIT, email must always be sent as
+		// whatever the form currently holds — including '' — so the backend can
+		// tell "cleared" apart from "untouched".
+		if (!isEdit && !payload.email) delete payload.email
 
 		if (!data.roles?.includes(MemberRolesEnum.PRESIDENT)) {
 			delete payload.details
@@ -187,15 +188,31 @@ export function MemberFormModal({ initialRole, member, onClose }: Props) {
 		}
 
 		if (isEdit) {
-			const updatePayload = { ...payload }
-			// Email is only ever editable while the member has none — once set, the
-			// field is locked, so there's nothing meaningful to send. Preserve it in
-			// the payload only when the admin just set it for the first time.
-			if (member?.email) delete updatePayload.email
-			updateMember(updatePayload, { onSuccess: afterMutationSuccess })
+			const emailChangedOrCleared = !!member?.email && payload.email !== member.email
+			if (emailChangedOrCleared) {
+				setPendingUpdatePayload(payload)
+				return
+			}
+			updateMember(payload, { onSuccess: afterMutationSuccess })
 		} else {
 			createMember(payload, { onSuccess: afterMutationSuccess })
 		}
+	}
+
+	// Changing/clearing an existing member's email has real account
+	// consequences (new password issued, old access revoked) — deferred here
+	// until the admin confirms via the dialog below, rather than acting on
+	// submit directly like every other field.
+	const confirmEmailChangeAndSubmit = () => {
+		if (!pendingUpdatePayload) return
+		const wasCleared = !pendingUpdatePayload.email
+		updateMember(pendingUpdatePayload, {
+			onSuccess: () => {
+				toast.success(wasCleared ? t('member_access_revoked') : t('member_password_emailed'))
+				afterMutationSuccess()
+			}
+		})
+		setPendingUpdatePayload(null)
 	}
 
 	const onInvalid = (errors: FieldErrors<TypeMemberFormState>) => {
@@ -254,7 +271,6 @@ export function MemberFormModal({ initialRole, member, onClose }: Props) {
 					language={language}
 					register={register}
 					formState={formState}
-					disabled={isEdit && !!member?.email}
 				/>
 					<MemberNameInput language={language} register={register} formState={formState} />
 
@@ -308,6 +324,22 @@ export function MemberFormModal({ initialRole, member, onClose }: Props) {
 							handleDelete={() => deleteMember(member._id, { onSuccess: onClose })}
 							setDeleteModalOpen={setIsDeleteModalOpen}
 							manageLenis={false}
+						/>
+					)}
+				</AnimatePresence>
+
+				<AnimatePresence>
+					{pendingUpdatePayload && member?.email && (
+						<ConfirmDeleteModal
+							message={
+								pendingUpdatePayload.email
+									? tAdmin('email_change_confirm_question', { newEmail: pendingUpdatePayload.email, oldEmail: member.email })
+									: tAdmin('email_removal_confirm_question', { oldEmail: member.email })
+							}
+							handleDelete={confirmEmailChangeAndSubmit}
+							setDeleteModalOpen={() => setPendingUpdatePayload(null)}
+							manageLenis={false}
+							confirmLabel={tAdmin('confirm_email_change')}
 						/>
 					)}
 				</AnimatePresence>

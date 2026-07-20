@@ -128,15 +128,15 @@ export const routing = defineRouting({
 		'/admin/edit-decision/[id]': '/admin/edit-decision/[id]',
 
 		// Member voting platform routes
-		'/voting': '/voting',
-		'/voting/login': '/voting/login',
-		'/voting/forgot-password': '/voting/forgot-password',
-		'/voting/reset-password': '/voting/reset-password',
-		'/voting/local-calls': '/voting/local-calls',
-		'/voting/local-calls/[id]': '/voting/local-calls/[id]',
-		'/voting/local-calls/[id]/projects/[projectId]': '/voting/local-calls/[id]/projects/[projectId]',
-		'/voting/decisions': '/voting/decisions',
-		'/voting/decisions/[id]': '/voting/decisions/[id]'
+		'/votare': '/votare',
+		'/votare/login': '/votare/login',
+		'/votare/forgot-password': '/votare/forgot-password',
+		'/votare/reset-password': '/votare/reset-password',
+		'/votare/local-calls': '/votare/local-calls',
+		'/votare/local-calls/[id]': '/votare/local-calls/[id]',
+		'/votare/local-calls/[id]/projects/[projectId]': '/votare/local-calls/[id]/projects/[projectId]',
+		'/votare/decisions': '/votare/decisions',
+		'/votare/decisions/[id]': '/votare/decisions/[id]'
 	},
 
 	// Used when no locale matches

@@ -10,13 +10,16 @@ interface Props {
     handleDelete: () => void;
     setDeleteModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
     message?: string;
+    // Overrides the confirm button's label — for reuse outside literal deletion
+    // (e.g. confirming an email change), where "Yes, delete" would be wrong copy.
+    confirmLabel?: string;
     // Set to false when nested inside another modal that already stops/starts Lenis
     // itself — otherwise this modal's unmount would re-enable scroll prematurely
     // while the parent modal is still open.
     manageLenis?: boolean;
 }
 
-export function ConfirmDeleteModal({ handleDelete, setDeleteModalOpen, message, manageLenis = true }: Props) {
+export function ConfirmDeleteModal({ handleDelete, setDeleteModalOpen, message, confirmLabel, manageLenis = true }: Props) {
 
     const lenis = useLenis();
     const t = useTranslations("Admin")
@@ -53,7 +56,7 @@ export function ConfirmDeleteModal({ handleDelete, setDeleteModalOpen, message, 
                             setDeleteModalOpen(false);
                         }}
                         className="h-[2.5rem] px-[1rem] cursor-pointer flex items-center justify-center bg-error hover:bg-red-700 transition-colors duration-300 rounded-[2rem] text-white text-[1rem] font-[400] leading-[1.125rem]">
-                        {t("confirm_delete")}
+                        {confirmLabel ?? t("confirm_delete")}
                     </div>
                 </div>
             </motion.div>

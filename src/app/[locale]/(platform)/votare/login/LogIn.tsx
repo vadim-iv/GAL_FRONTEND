@@ -50,7 +50,9 @@ export function LogIn() {
 					className='size-[4rem]'
 				/>
 
-				<form className='w-full mt-[2rem] flex flex-col' onSubmit={handleSubmit(onSubmit)}>
+				<p className='mt-[0.75rem] text-green-700 text-[0.875rem] font-[500]'>{t('loginSubtitle')}</p>
+
+				<form className='w-full mt-[1rem] flex flex-col' onSubmit={handleSubmit(onSubmit)}>
 					<InputField
 						hasError={isError}
 						placeholder={`${t('email')}*`}

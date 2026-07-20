@@ -10,6 +10,7 @@ import { TypeLocalCallFormState } from '@/types/local-call.types'
 import { isMultiLangComplete } from '@/lib/multi-lang.utils'
 
 import { InputField } from '../../ui/InputField'
+import { RichTextEditor } from '../../ui/RichTextEditor/RichTextEditor'
 
 interface Props {
 	language: 'ro' | 'ru' | 'en'
@@ -39,15 +40,14 @@ export function LocalCallQuestionsInput({ language, register, control, formState
 		append({ question: { ro: '', ru: '', en: '' }, maxScore: 10 }, { shouldFocus: false })
 	}, [append])
 
+	// The question text's cross-language validate rule is attached via
+	// RichTextEditor's own `rules` prop below (forwarded to useController) — do
+	// NOT also register() that field path manually. Mixing register() and
+	// useController on the same name is a real RHF conflict: the manual
+	// registration can clobber the controller-tracked value, so the field can
+	// look filled in the UI yet still fail validation on submit.
 	useEffect(() => {
 		fields.forEach((_, index) => {
-			// Validates ALL THREE languages together (not just the field's own value) so
-			// e.g. a completed Romanian tab still shows red while Russian/English are empty.
-			const questionTextValidate = (_value: string, formValues: TypeLocalCallFormState) =>
-				isMultiLangComplete(formValues.questions?.[index]?.question)
-			register(`questions.${index}.question.ro`, { validate: questionTextValidate })
-			register(`questions.${index}.question.ru`, { validate: questionTextValidate })
-			register(`questions.${index}.question.en`, { validate: questionTextValidate })
 			register(`questions.${index}.maxScore`, { required: true, min: 1, max: 10 })
 		})
 	}, [register, fields])
@@ -68,43 +68,41 @@ export function LocalCallQuestionsInput({ language, register, control, formState
 							key={field.id}
 							className='flex flex-col gap-[0.5rem] border border-gray-500 rounded-[1rem] p-[1rem]'
 						>
-							{/* The error text below deliberately sits OUTSIDE this items-end row, not
-							inside the input's own column — nesting it there would grow just that
-							column's height, and items-end re-anchors every column to the new (taller)
-							bottom, visibly shifting the max-score field / remove button down relative
-							to the input. */}
-							<div className='flex items-end gap-[1rem]'>
+							<div className='flex items-start gap-[1rem]'>
 								<div className='flex-1'>
-									<InputField
+									<RichTextEditor
 										key={`question-${field.id}-${language}`}
-										hasError={questionHasError}
+										control={control}
+										name={`questions.${index}.question.${language}`}
 										placeholder={t.questionPlaceholder}
-										{...register(`questions.${index}.question.${language}`, { validate: questionTextValidate })}
-									/>
-								</div>
-								<div className='w-[8rem] flex flex-col gap-[0.5rem]'>
-									<label className='text-[0.75rem] text-green-700'>{t.maxScoreLabel}</label>
-									<InputField
-										type='number'
-										min={1}
-										max={10}
-										hasError={!!formState.errors.questions?.[index]?.maxScore}
-										{...register(`questions.${index}.maxScore`, {
-											required: true,
-											min: 1,
-											max: 10,
-											valueAsNumber: true
-										})}
+										rules={{ validate: questionTextValidate }}
+										className={`h-[8rem] ${questionHasError ? 'border-error text-error placeholder:text-error animate-shake' : ''}`}
 									/>
 								</div>
 								<p
 									onClick={() => remove(index)}
-									className='text-[0.875rem] text-error cursor-pointer hover:opacity-70 transition-opacity duration-300 mb-[0.75rem]'
+									className='mt-[0.625rem] text-[0.875rem] text-error cursor-pointer hover:opacity-70 transition-opacity duration-300'
 								>
 									{t.removeLabel}
 								</p>
 							</div>
 							{questionHasError && <p className='text-error text-sm'>{t.textError}</p>}
+
+							<div className='w-[8rem] flex flex-col gap-[0.5rem]'>
+								<label className='text-[0.75rem] text-green-700'>{t.maxScoreLabel}</label>
+								<InputField
+									type='number'
+									min={1}
+									max={10}
+									hasError={!!formState.errors.questions?.[index]?.maxScore}
+									{...register(`questions.${index}.maxScore`, {
+										required: true,
+										min: 1,
+										max: 10,
+										valueAsNumber: true
+									})}
+								/>
+							</div>
 						</div>
 					)
 				})}
